@@ -15,8 +15,8 @@ export default function Slide1Cover() {
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 relative overflow-hidden bg-flame-maroon text-flame-pink">
-      {/* Real Flame Background Simulation */}
-      <RealFlameBackground intensity={1.25} showEmbers={true} />
+      {/* Real Visible Yellow Flame Background Simulation */}
+      <RealFlameBackground colorPreset="yellow" flameHeight="tall" intensity={1.35} showEmbers={true} />
 
       {/* Decorative PPTX-style geometric bracket watermark */}
       <svg

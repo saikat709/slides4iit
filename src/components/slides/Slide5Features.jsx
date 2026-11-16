@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import RealFlameBackground from '../RealFlameBackground';
 import { KeyRound, Database, Terminal, HardDrive, LayoutDashboard, Radio } from 'lucide-react';
 
 export default function Slide5Features() {
@@ -39,9 +40,11 @@ export default function Slide5Features() {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-flame-pink text-flame-maroon relative overflow-hidden">
-      {/* Background decorative shape */}
-      <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/40 rounded-full blur-3xl pointer-events-none" />
+    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#FFF5F6] via-[#FEDEE1] to-[#FCD2D8] text-flame-maroon relative overflow-hidden">
+      {/* Light gradient lighting and ambient flame */}
+      <div className="absolute inset-0 bg-radial-gradient from-white/60 via-transparent to-flame-pink/40 pointer-events-none" />
+      <RealFlameBackground colorPreset="ambient" flameHeight="bottom" intensity={0.5} showEmbers={true} />
+      <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/50 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header */}
       <motion.div

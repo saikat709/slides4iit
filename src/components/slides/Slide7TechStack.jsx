@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import RealFlameBackground from '../RealFlameBackground';
 import { Cpu, Database, Code2, LayoutDashboard, Terminal, Container, FolderGit2 } from 'lucide-react';
 
 export default function Slide7TechStack() {
@@ -56,8 +57,10 @@ export default function Slide7TechStack() {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-flame-pink text-flame-maroon relative overflow-hidden">
-      {/* Decorative background shape */}
+    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#FFF5F6] via-[#FEDEE1] to-[#FCD2D8] text-flame-maroon relative overflow-hidden">
+      {/* Light gradient lighting and ambient flame */}
+      <div className="absolute inset-0 bg-radial-gradient from-white/60 via-transparent to-flame-pink/40 pointer-events-none" />
+      <RealFlameBackground colorPreset="ambient" flameHeight="bottom" intensity={0.5} showEmbers={true} />
       <div className="absolute top-0 right-10 w-96 h-96 bg-white/40 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header */}

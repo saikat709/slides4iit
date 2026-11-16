@@ -6,9 +6,9 @@ import { Github, Shield, User, HelpCircle, Sparkles, ExternalLink, MessageSquare
 
 export default function Slide10Team() {
   return (
-    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-flame-maroon text-white relative overflow-hidden">
+    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#56030F] via-flame-maroon to-[#240004] text-white relative overflow-hidden">
       {/* Real Flame Background Simulation */}
-      <RealFlameBackground intensity={1.1} showEmbers={true} />
+      <RealFlameBackground colorPreset="yellow" flameHeight="bottom" intensity={0.9} showEmbers={true} />
 
       {/* Header */}
       <motion.div

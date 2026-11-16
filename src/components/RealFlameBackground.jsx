@@ -2,14 +2,17 @@ import React, { useEffect, useRef } from 'react';
 
 /**
  * RealFlameBackground
- * A high-performance, realistic physical flame simulation using additive particle combustion,
- * fluid upward convective velocity, sinusoidal air draft turbulence, and floating embers.
+ * Realistic physical flame combustion simulation.
+ * Supports:
+ * - 'yellow': High-visibility radiant golden-yellow fire with white-hot core (ideal for Home cover).
+ * - 'ambient': Gentle warm golden flame base with floating embers (ideal for content slides with light/dark gradients).
  */
 export default function RealFlameBackground({
-  height = '100%',
+  colorPreset = 'yellow', // 'yellow' | 'ambient'
+  flameHeight = 'tall',   // 'tall' | 'bottom'
   intensity = 1.0,
-  className = '',
-  showEmbers = true
+  showEmbers = true,
+  className = ''
 }) {
   const canvasRef = useRef(null);
 
@@ -31,9 +34,14 @@ export default function RealFlameBackground({
 
     window.addEventListener('resize', handleResize);
 
-    // Particle pool for realistic flames
-    const flameCount = Math.floor(Math.min(180, Math.max(90, width / 8)));
-    const emberCount = showEmbers ? Math.floor(Math.min(60, Math.max(25, width / 20))) : 0;
+    const isHome = colorPreset === 'yellow' && flameHeight === 'tall';
+    const flameCount = isHome
+      ? Math.floor(Math.min(200, Math.max(110, width / 7)))
+      : Math.floor(Math.min(100, Math.max(50, width / 14)));
+
+    const emberCount = showEmbers
+      ? (isHome ? Math.floor(Math.min(70, Math.max(30, width / 18))) : Math.floor(Math.min(35, Math.max(15, width / 30))))
+      : 0;
 
     class FlameParticle {
       constructor(isInitial = false) {
@@ -41,24 +49,26 @@ export default function RealFlameBackground({
       }
 
       reset(isInitial = false) {
-        // Distribute across the bottom edge with a concentrated center peak
+        // Spread along bottom edge
         const spread = (Math.random() - 0.5);
-        this.x = width * 0.5 + spread * width * 0.85;
-        this.y = height + (isInitial ? -Math.random() * height * 0.4 : Math.random() * 20);
-        
-        // Upward convective velocity
-        this.vy = -(Math.random() * 2.5 + 2.2) * (0.8 + intensity * 0.4);
-        this.vx = (Math.random() - 0.5) * 1.2;
-        
-        // Physical lifespan
-        this.maxLife = Math.random() * 45 + 35;
+        this.x = width * 0.5 + spread * width * (isHome ? 0.95 : 1.0);
+        this.y = height + (isInitial ? -Math.random() * (isHome ? height * 0.45 : height * 0.2) : Math.random() * 20);
+
+        // Convective upward velocity
+        const baseSpeed = isHome ? (Math.random() * 2.8 + 2.4) : (Math.random() * 1.6 + 1.2);
+        this.vy = -baseSpeed * (0.8 + intensity * 0.4);
+        this.vx = (Math.random() - 0.5) * 1.1;
+
+        // Life
+        const maxLifeBase = isHome ? (Math.random() * 45 + 40) : (Math.random() * 32 + 24);
+        this.maxLife = maxLifeBase;
         this.life = isInitial ? Math.random() * this.maxLife : 0;
-        
-        // Initial size (large at bottom, contracts as it burns out)
-        this.baseSize = (Math.random() * 32 + 22) * (0.7 + intensity * 0.4);
+
+        // Size
+        const sizeBase = isHome ? (Math.random() * 38 + 26) : (Math.random() * 26 + 16);
+        this.baseSize = sizeBase * (0.7 + intensity * 0.4);
         this.size = this.baseSize;
 
-        // Swirl offset
         this.seed = Math.random() * 100;
       }
 
@@ -71,55 +81,75 @@ export default function RealFlameBackground({
 
         const progress = this.life / this.maxLife;
 
-        // Acceleration upward as hot gas rises
-        this.vy -= 0.04;
-        
-        // Air turbulence / sinusoidal draft
-        const turbulence = Math.sin(time * 0.003 + this.seed) * 0.8 + Math.cos(this.y * 0.02) * 0.5;
-        this.vx += (turbulence * 0.15);
-        
-        // Slight pull toward center to create natural flame tongue shapes
-        const centerPull = (width * 0.5 - this.x) * 0.0008;
+        // Thermal acceleration
+        this.vy -= isHome ? 0.05 : 0.03;
+
+        // Draft turbulence
+        const turbulence = Math.sin(time * 0.003 + this.seed) * 0.9 + Math.cos(this.y * 0.02) * 0.5;
+        this.vx += (turbulence * 0.16);
+
+        // Center draft
+        const centerPull = (width * 0.5 - this.x) * (isHome ? 0.0009 : 0.0004);
         this.vx += centerPull;
 
         this.x += this.vx;
         this.y += this.vy;
 
-        // Shrink particle as it consumes fuel
-        this.size = this.baseSize * (1 - progress * 0.75);
+        // Shrink at tip
+        this.size = this.baseSize * (1 - progress * 0.78);
       }
 
       draw(ctx) {
         const progress = this.life / this.maxLife;
         if (this.size <= 0) return;
 
-        // Realistic combustion color ramp:
-        // Core/Birth: Intense white-hot (#FFFFFF) -> Pale yellow/peach (#FEDEE1)
-        // Mid: Radiant warm flame orange/red (#FF4500, #E02E4C)
-        // Outer/Smoke: Dark crimson / maroon (#70020F) -> Transparent
         let r, g, b, alpha;
 
-        if (progress < 0.2) {
-          // White-hot core
-          const t = progress / 0.2;
-          r = 255;
-          g = Math.floor(245 - t * 65);   // 245 -> 180
-          b = Math.floor(220 - t * 140);  // 220 -> 80
-          alpha = 0.85;
-        } else if (progress < 0.55) {
-          // Radiant orange-red flame
-          const t = (progress - 0.2) / 0.35;
-          r = 255;
-          g = Math.floor(180 - t * 130);  // 180 -> 50
-          b = Math.floor(80 - t * 70);    // 80 -> 10
-          alpha = 0.7 - t * 0.2;
+        if (colorPreset === 'yellow') {
+          // VISIBLE RADIANT YELLOW FLAME
+          if (progress < 0.22) {
+            // Stage 1: Intense White-Hot to Radiant Sunny Yellow
+            const t = progress / 0.22;
+            r = 255;
+            g = Math.floor(255 - t * 35);   // 255 -> 220
+            b = Math.floor(230 - t * 210);  // 230 -> 20 (bright yellow!)
+            alpha = 0.92;
+          } else if (progress < 0.58) {
+            // Stage 2: Vivid Golden Yellow to Warm Amber
+            const t = (progress - 0.22) / 0.36;
+            r = 255;
+            g = Math.floor(220 - t * 105);  // 220 -> 115 (golden yellow -> warm amber)
+            b = Math.floor(20 - t * 20);    // 20 -> 0
+            alpha = 0.85 - t * 0.25;
+          } else {
+            // Stage 3: Amber to Fiery Orange-Red and Smoke Dissipation
+            const t = (progress - 0.58) / 0.42;
+            r = Math.floor(255 - t * 125);  // 255 -> 130
+            g = Math.floor(115 - t * 105);  // 115 -> 10
+            b = Math.floor(t * 15);
+            alpha = (1 - t) * 0.55;
+          }
         } else {
-          // Deep maroon / dissipation
-          const t = (progress - 0.55) / 0.45;
-          r = Math.floor(240 - t * 128);  // 240 -> 112 (#70020F)
-          g = Math.floor(50 - t * 48);    // 50 -> 2
-          b = Math.floor(10 + t * 5);     // 10 -> 15
-          alpha = (1 - t) * 0.5;
+          // AMBIENT WARM FLAME (Gentle golden-amber presence for content slides)
+          if (progress < 0.3) {
+            const t = progress / 0.3;
+            r = 255;
+            g = Math.floor(235 - t * 50);
+            b = Math.floor(140 - t * 110);
+            alpha = 0.65;
+          } else if (progress < 0.7) {
+            const t = (progress - 0.3) / 0.4;
+            r = 255;
+            g = Math.floor(185 - t * 95);
+            b = Math.floor(30 - t * 25);
+            alpha = 0.5 - t * 0.2;
+          } else {
+            const t = (progress - 0.7) / 0.3;
+            r = Math.floor(230 - t * 110);
+            g = Math.floor(90 - t * 80);
+            b = 10;
+            alpha = (1 - t) * 0.3;
+          }
         }
 
         const radGrad = ctx.createRadialGradient(
@@ -127,8 +157,8 @@ export default function RealFlameBackground({
           this.x, this.y, Math.max(1, this.size)
         );
         radGrad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha})`);
-        radGrad.addColorStop(0.4, `rgba(${r}, ${Math.floor(g * 0.6)}, ${Math.floor(b * 0.4)}, ${alpha * 0.6})`);
-        radGrad.addColorStop(1, `rgba(112, 2, 15, 0)`);
+        radGrad.addColorStop(0.45, `rgba(${r}, ${Math.floor(g * 0.75)}, ${Math.floor(b * 0.4)}, ${alpha * 0.65})`);
+        radGrad.addColorStop(1, `rgba(255, 120, 0, 0)`);
 
         ctx.fillStyle = radGrad;
         ctx.beginPath();
@@ -143,12 +173,12 @@ export default function RealFlameBackground({
       }
 
       reset(isInitial = false) {
-        this.x = width * 0.5 + (Math.random() - 0.5) * width * 0.9;
+        this.x = width * 0.5 + (Math.random() - 0.5) * width * 0.95;
         this.y = isInitial ? Math.random() * height : height + 10;
         this.vy = -(Math.random() * 2.2 + 1.2);
-        this.vx = (Math.random() - 0.5) * 1.5;
-        this.size = Math.random() * 2.5 + 1.2;
-        this.maxLife = Math.random() * 90 + 70;
+        this.vx = (Math.random() - 0.5) * 1.4;
+        this.size = Math.random() * 2.4 + 1.2;
+        this.maxLife = Math.random() * 85 + 60;
         this.life = isInitial ? Math.random() * this.maxLife : 0;
         this.seed = Math.random() * 50;
       }
@@ -160,15 +190,16 @@ export default function RealFlameBackground({
           return;
         }
         const progress = this.life / this.maxLife;
-        this.x += this.vx + Math.sin(time * 0.002 + this.seed) * 0.8;
+        this.x += this.vx + Math.sin(time * 0.002 + this.seed) * 0.7;
         this.y += this.vy;
-        this.alpha = Math.sin(progress * Math.PI) * (0.8 + Math.random() * 0.2);
+        this.alpha = Math.sin(progress * Math.PI) * (0.85 + Math.random() * 0.15);
       }
 
       draw(ctx) {
-        ctx.fillStyle = `rgba(254, 222, 225, ${this.alpha})`;
-        ctx.shadowColor = '#FF5722';
-        ctx.shadowBlur = 6;
+        // Golden glowing sparks
+        ctx.fillStyle = `rgba(255, 225, 80, ${this.alpha})`;
+        ctx.shadowColor = '#FFA500';
+        ctx.shadowBlur = 8;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
@@ -179,17 +210,21 @@ export default function RealFlameBackground({
     const flames = Array.from({ length: flameCount }, () => new FlameParticle(true));
     const embers = Array.from({ length: emberCount }, () => new EmberParticle(true));
 
-    let lastTime = 0;
     const render = (time) => {
-      // Clear with soft decay for slight motion trail
       ctx.clearRect(0, 0, width, height);
 
-      // Base bottom hearth glow
-      const baseGrad = ctx.createLinearGradient(0, height, 0, height - height * 0.45);
-      baseGrad.addColorStop(0, 'rgba(180, 20, 40, 0.35)');
-      baseGrad.addColorStop(0.4, 'rgba(112, 2, 15, 0.2)');
-      baseGrad.addColorStop(1, 'rgba(112, 2, 15, 0)');
-      ctx.fillStyle = baseGrad;
+      // Base bottom hearth glow (warm golden/amber)
+      const hearthGrad = ctx.createLinearGradient(0, height, 0, height - (isHome ? height * 0.45 : height * 0.25));
+      if (colorPreset === 'yellow') {
+        hearthGrad.addColorStop(0, 'rgba(255, 170, 0, 0.45)');
+        hearthGrad.addColorStop(0.3, 'rgba(230, 60, 20, 0.25)');
+        hearthGrad.addColorStop(1, 'rgba(112, 2, 15, 0)');
+      } else {
+        hearthGrad.addColorStop(0, 'rgba(255, 160, 20, 0.25)');
+        hearthGrad.addColorStop(0.4, 'rgba(200, 40, 20, 0.12)');
+        hearthGrad.addColorStop(1, 'rgba(112, 2, 15, 0)');
+      }
+      ctx.fillStyle = hearthGrad;
       ctx.fillRect(0, 0, width, height);
 
       // Draw additive combustion flames
@@ -201,7 +236,7 @@ export default function RealFlameBackground({
       }
       ctx.restore();
 
-      // Draw rising embers
+      // Draw rising golden embers
       if (showEmbers) {
         ctx.save();
         ctx.globalCompositeOperation = 'lighter';
@@ -221,19 +256,22 @@ export default function RealFlameBackground({
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [intensity, showEmbers]);
+  }, [colorPreset, flameHeight, intensity, showEmbers]);
 
   return (
     <div className={`absolute inset-0 pointer-events-none overflow-hidden select-none ${className}`}>
-      {/* Real Flame HTML5 Canvas Simulation */}
+      {/* Real Flame HTML5 Canvas */}
       <canvas
         ref={canvasRef}
-        className="w-full h-full block opacity-85"
+        className="w-full h-full block opacity-90"
       />
 
-      {/* Subtle bottom vignette to blend smoothly into the slide */}
-      <div className="absolute inset-0 bg-gradient-to-t from-flame-maroon-deep/70 via-transparent to-flame-maroon/60 pointer-events-none" />
-      <div className="absolute inset-0 bg-radial-gradient pointer-events-none" />
+      {/* Vignette blend */}
+      {colorPreset === 'yellow' ? (
+        <div className="absolute inset-0 bg-gradient-to-t from-flame-maroon-deep/75 via-transparent to-flame-maroon/70 pointer-events-none" />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-transparent pointer-events-none" />
+      )}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import RealFlameBackground from '../RealFlameBackground';
 import { Smartphone, Laptop, Cloud, KeyRound, Database, HardDrive, Terminal, ArrowRight, ArrowDown, Repeat } from 'lucide-react';
 
 export default function Slide2Firebase() {
@@ -31,8 +32,10 @@ export default function Slide2Firebase() {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-flame-maroon text-white relative overflow-hidden">
-      {/* Decorative background glow */}
+    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#56030F] via-flame-maroon to-[#280005] text-white relative overflow-hidden">
+      {/* Light gradient lighting and ambient flame */}
+      <div className="absolute inset-0 bg-radial-gradient from-flame-pink/5 via-transparent to-black/40 pointer-events-none" />
+      <RealFlameBackground colorPreset="ambient" flameHeight="bottom" intensity={0.65} showEmbers={true} />
       <div className="absolute top-1/4 right-0 w-80 h-80 bg-flame-pink/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header */}

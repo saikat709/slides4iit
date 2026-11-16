@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import RealFlameBackground from '../RealFlameBackground';
 import { Lock, DollarSign, Link2Off, AlertTriangle, ShieldAlert, Cpu } from 'lucide-react';
 
 export default function Slide3Problems() {
@@ -31,8 +32,10 @@ export default function Slide3Problems() {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-flame-maroon text-white relative overflow-hidden">
-      {/* Decorative background glow */}
+    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#580310] via-flame-maroon to-[#240004] text-white relative overflow-hidden">
+      {/* Light gradient lighting and ambient flame */}
+      <div className="absolute inset-0 bg-radial-gradient from-flame-pink/5 via-transparent to-black/35 pointer-events-none" />
+      <RealFlameBackground colorPreset="ambient" flameHeight="bottom" intensity={0.65} showEmbers={true} />
       <div className="absolute -bottom-10 right-10 w-96 h-96 bg-flame-maroon-dark/60 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header */}
