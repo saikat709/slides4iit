@@ -1,18 +1,35 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import RealFlameBackground from './RealFlameBackground';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
 
-export default function IntroSplash({ onStart }) {
+export default function IntroSplash({ onStart, onExitToHub }) {
+  const navigate = useNavigate();
+
+  const handleExit = (e) => {
+    e.stopPropagation();
+    if (onExitToHub) {
+      onExitToHub();
+    } else {
+      navigate('/');
+    }
+  };
+
   useEffect(() => {
-    // Press any key to start presentation
+    // Press any key to start presentation (except Escape which can exit)
     const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (onExitToHub) onExitToHub();
+        else navigate('/');
+        return;
+      }
       onStart();
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onStart]);
+  }, [onStart, onExitToHub, navigate]);
 
   return (
     <motion.div
@@ -23,6 +40,17 @@ export default function IntroSplash({ onStart }) {
       onClick={onStart}
       className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-flame-maroon text-white cursor-pointer select-none overflow-hidden"
     >
+      {/* Top Left Return to Hub Button */}
+      <button
+        type="button"
+        onClick={handleExit}
+        title="Return to All Presentations (Esc)"
+        className="absolute top-5 left-5 z-20 flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 hover:bg-flame-pink/25 border border-flame-pink/35 text-flame-pink text-xs font-mono backdrop-blur-md transition-all hover:scale-105 active:scale-95 shadow-lg"
+      >
+        <ArrowLeft className="w-3.5 h-3.5" />
+        <span>All Presentations</span>
+      </button>
+
       {/* Real Radiant Yellow Flame Simulation */}
       <RealFlameBackground colorPreset="yellow" flameHeight="tall" intensity={1.4} showEmbers={true} />
 

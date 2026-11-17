@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { slides } from '../data/slidesData';
 import {
@@ -15,6 +16,7 @@ import {
   Layers,
   Keyboard,
   Home,
+  ArrowLeft,
   ChevronDown
 } from 'lucide-react';
 import IntroSplash from './IntroSplash';
@@ -43,8 +45,17 @@ const slideComponents = [
   Slide10Team,
 ];
 
-export default function PresentationLayout() {
+export default function PresentationLayout({ onExitToHub }) {
+  const navigate = useNavigate();
   const [hasStarted, setHasStarted] = useState(false);
+
+  const handleExit = () => {
+    if (onExitToHub) {
+      onExitToHub();
+    } else {
+      navigate('/');
+    }
+  };
   const [isNavHidden, setIsNavHidden] = useState(false);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -233,7 +244,7 @@ export default function PresentationLayout() {
       {/* Initial Landing Screen with Only FLAMEBASE & Flame BG */}
       <AnimatePresence>
         {!hasStarted && (
-          <IntroSplash onStart={() => setHasStarted(true)} />
+          <IntroSplash onStart={() => setHasStarted(true)} onExitToHub={handleExit} />
         )}
       </AnimatePresence>
 
@@ -322,16 +333,25 @@ export default function PresentationLayout() {
 
             <div className="w-px h-4 bg-flame-pink/25 hidden sm:block" />
 
-            {/* Return to Initial Splash Screen */}
+            {/* Return to Presentations Hub */}
+            <button
+              onClick={handleExit}
+              title="Return to Presentations Hub (/)"
+              className="p-1.5 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all hidden sm:block"
+            >
+              <Home className="w-4 h-4" />
+            </button>
+
+            {/* Return to Splash / Restart */}
             <button
               onClick={() => {
                 setHasStarted(false);
                 setCurrentSlideIndex(0);
               }}
-              title="Return to Initial Screen (Home)"
+              title="Restart Deck (Splash Screen)"
               className="p-1.5 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all hidden sm:block"
             >
-              <Home className="w-4 h-4" />
+              <RotateCcw className="w-4 h-4" />
             </button>
 
             {/* Overview Grid Toggle */}
@@ -426,12 +446,22 @@ export default function PresentationLayout() {
                   10 Slides
                 </span>
               </div>
-              <button
-                onClick={() => setShowOverview(false)}
-                className="p-2 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all"
-              >
-                <X className="w-6 h-6" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleExit}
+                  title="Return to Presentations Hub"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-flame-pink/15 hover:bg-flame-pink/25 border border-flame-pink/30 text-flame-pink text-xs font-mono transition-all"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Hub</span>
+                </button>
+                <button
+                  onClick={() => setShowOverview(false)}
+                  className="p-2 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 my-auto">

@@ -50,6 +50,16 @@
   border: 1px solid rgba(112, 2, 15, 0.15);
 }
 
+/* Suppress Netlify badge injection */
+#nl-badge,
+[id*="nl-badge"],
+.netlify-badge {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 /* Custom scrollbar for modals */
 ::-webkit-scrollbar {
   width: 6px;
