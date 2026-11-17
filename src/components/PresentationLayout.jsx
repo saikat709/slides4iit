@@ -13,8 +13,11 @@ import {
   RotateCcw,
   Sparkles,
   Layers,
-  Keyboard
+  Keyboard,
+  Home,
+  ChevronDown
 } from 'lucide-react';
+import IntroSplash from './IntroSplash';
 
 import Slide1Cover from './slides/Slide1Cover';
 import Slide2Firebase from './slides/Slide2Firebase';
@@ -41,6 +44,8 @@ const slideComponents = [
 ];
 
 export default function PresentationLayout() {
+  const [hasStarted, setHasStarted] = useState(false);
+  const [isNavHidden, setIsNavHidden] = useState(false);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -95,6 +100,8 @@ export default function PresentationLayout() {
 
   // Keyboard navigation
   useEffect(() => {
+    if (!hasStarted) return;
+
     const handleKeyDown = (e) => {
       // Don't intercept if an input is focused
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
@@ -126,6 +133,11 @@ export default function PresentationLayout() {
           e.preventDefault();
           toggleFullscreen();
           break;
+        case 'h':
+        case 'H':
+          e.preventDefault();
+          setIsNavHidden((prev) => !prev);
+          break;
         case 'o':
         case 'O':
         case 'g':
@@ -148,7 +160,7 @@ export default function PresentationLayout() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [nextSlide, prevSlide, totalSlides, showOverview, showHelp]);
+  }, [hasStarted, nextSlide, prevSlide, totalSlides, showOverview, showHelp]);
 
   // Autoplay functionality
   useEffect(() => {
@@ -218,6 +230,13 @@ export default function PresentationLayout() {
       onTouchEnd={handleTouchEnd}
       className="w-screen h-screen flex flex-col bg-[#4A010A] text-white overflow-hidden relative"
     >
+      {/* Initial Landing Screen with Only FLAMEBASE & Flame BG */}
+      <AnimatePresence>
+        {!hasStarted && (
+          <IntroSplash onStart={() => setHasStarted(true)} />
+        )}
+      </AnimatePresence>
+
       {/* Top Thin Progress Bar */}
       <div className="w-full h-1.5 bg-black/30 fixed top-0 left-0 z-50">
         <motion.div
@@ -247,92 +266,148 @@ export default function PresentationLayout() {
         </div>
       </main>
 
-      {/* Bottom Floating Navigation Bar */}
-      <footer className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 bg-flame-maroon-deep/90 border border-flame-pink/30 rounded-full px-4 py-2 shadow-2xl backdrop-blur-md flex items-center gap-3 sm:gap-4 text-xs font-mono">
-        {/* Previous Button */}
-        <button
-          onClick={prevSlide}
-          disabled={currentSlideIndex === 0}
-          title="Previous slide (Left Arrow)"
-          className={`p-1.5 rounded-full transition-all ${
-            currentSlideIndex === 0
-              ? 'opacity-30 cursor-not-allowed text-flame-pink/50'
-              : 'hover:bg-flame-pink/20 text-flame-pink active:scale-95'
-          }`}
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
+      {/* Bottom Floating Navigation Bar (Hidable) */}
+      <AnimatePresence>
+        {hasStarted && !isNavHidden && (
+          <motion.footer
+            initial={{ y: 50, opacity: 0, x: '-50%' }}
+            animate={{ y: 0, opacity: 1, x: '-50%' }}
+            exit={{ y: 50, opacity: 0, x: '-50%' }}
+            transition={{ duration: 0.28, ease: 'easeOut' }}
+            className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 bg-flame-maroon-deep/95 border border-flame-pink/30 rounded-full px-4 py-2 shadow-2xl backdrop-blur-md flex items-center gap-3 sm:gap-4 text-xs font-mono"
+          >
+            {/* Previous Button */}
+            <button
+              onClick={prevSlide}
+              disabled={currentSlideIndex === 0}
+              title="Previous slide (Left Arrow)"
+              className={`p-1.5 rounded-full transition-all ${
+                currentSlideIndex === 0
+                  ? 'opacity-30 cursor-not-allowed text-flame-pink/50'
+                  : 'hover:bg-flame-pink/20 text-flame-pink active:scale-95'
+              }`}
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
 
-        {/* Slide Counter / Title Indicator */}
-        <button
-          onClick={() => setShowOverview(true)}
-          className="flex items-center gap-2 hover:bg-flame-pink/15 px-3 py-1 rounded-full transition-all cursor-pointer text-flame-pink font-semibold"
-          title="Click to view all slides (O or G)"
-        >
-          <span className="font-anton tracking-wider text-sm text-white">
-            {String(currentSlideIndex + 1).padStart(2, '0')}
-          </span>
-          <span className="text-flame-pink/60 text-xs">/</span>
-          <span className="text-flame-pink/80 text-xs">{String(totalSlides).padStart(2, '0')}</span>
-          <span className="hidden md:inline text-[11px] text-flame-pink/70 border-l border-flame-pink/30 pl-2">
-            {currentSlide.title}
-          </span>
-        </button>
+            {/* Slide Counter / Title Indicator */}
+            <button
+              onClick={() => setShowOverview(true)}
+              className="flex items-center gap-2 hover:bg-flame-pink/15 px-3 py-1 rounded-full transition-all cursor-pointer text-flame-pink font-semibold"
+              title="Click to view all slides (O or G)"
+            >
+              <span className="font-anton tracking-wider text-sm text-white">
+                {String(currentSlideIndex + 1).padStart(2, '0')}
+              </span>
+              <span className="text-flame-pink/60 text-xs">/</span>
+              <span className="text-flame-pink/80 text-xs">{String(totalSlides).padStart(2, '0')}</span>
+              <span className="hidden md:inline text-[11px] text-flame-pink/70 border-l border-flame-pink/30 pl-2">
+                {currentSlide.title}
+              </span>
+            </button>
 
-        {/* Next Button */}
-        <button
-          onClick={nextSlide}
-          disabled={currentSlideIndex === totalSlides - 1}
-          title="Next slide (Right Arrow / Space)"
-          className={`p-1.5 rounded-full transition-all ${
-            currentSlideIndex === totalSlides - 1
-              ? 'opacity-30 cursor-not-allowed text-flame-pink/50'
-              : 'hover:bg-flame-pink/20 text-flame-pink active:scale-95'
-          }`}
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+            {/* Next Button */}
+            <button
+              onClick={nextSlide}
+              disabled={currentSlideIndex === totalSlides - 1}
+              title="Next slide (Right Arrow / Space)"
+              className={`p-1.5 rounded-full transition-all ${
+                currentSlideIndex === totalSlides - 1
+                  ? 'opacity-30 cursor-not-allowed text-flame-pink/50'
+                  : 'hover:bg-flame-pink/20 text-flame-pink active:scale-95'
+              }`}
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
 
-        <div className="w-px h-4 bg-flame-pink/25 hidden sm:block" />
+            <div className="w-px h-4 bg-flame-pink/25 hidden sm:block" />
 
-        {/* Overview Grid Toggle */}
-        <button
-          onClick={() => setShowOverview(true)}
-          title="Slides Overview Grid (O)"
-          className="p-1.5 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all hidden sm:block"
-        >
-          <Grid className="w-4 h-4" />
-        </button>
+            {/* Return to Initial Splash Screen */}
+            <button
+              onClick={() => {
+                setHasStarted(false);
+                setCurrentSlideIndex(0);
+              }}
+              title="Return to Initial Screen (Home)"
+              className="p-1.5 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all hidden sm:block"
+            >
+              <Home className="w-4 h-4" />
+            </button>
 
-        {/* Autoplay Toggle */}
-        <button
-          onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-          title={isAutoPlaying ? "Pause Autoplay" : "Start Autoplay (7s per slide)"}
-          className={`p-1.5 rounded-full transition-all hidden sm:block ${
-            isAutoPlaying ? 'bg-flame-pink text-flame-maroon' : 'hover:bg-flame-pink/20 text-flame-pink'
-          }`}
-        >
-          {isAutoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-        </button>
+            {/* Overview Grid Toggle */}
+            <button
+              onClick={() => setShowOverview(true)}
+              title="Slides Overview Grid (O)"
+              className="p-1.5 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all hidden sm:block"
+            >
+              <Grid className="w-4 h-4" />
+            </button>
 
-        {/* Fullscreen Toggle */}
-        <button
-          onClick={toggleFullscreen}
-          title="Toggle Fullscreen (F)"
-          className="p-1.5 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all"
-        >
-          {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-        </button>
+            {/* Autoplay Toggle */}
+            <button
+              onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+              title={isAutoPlaying ? "Pause Autoplay" : "Start Autoplay (7s per slide)"}
+              className={`p-1.5 rounded-full transition-all hidden sm:block ${
+                isAutoPlaying ? 'bg-flame-pink text-flame-maroon' : 'hover:bg-flame-pink/20 text-flame-pink'
+              }`}
+            >
+              {isAutoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            </button>
 
-        {/* Keyboard Shortcuts Help */}
-        <button
-          onClick={() => setShowHelp(true)}
-          title="Keyboard Shortcuts (?)"
-          className="p-1.5 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all hidden md:block"
-        >
-          <Keyboard className="w-4 h-4" />
-        </button>
-      </footer>
+            {/* Fullscreen Toggle */}
+            <button
+              onClick={toggleFullscreen}
+              title="Toggle Fullscreen (F)"
+              className="p-1.5 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all"
+            >
+              {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+            </button>
+
+            {/* Keyboard Shortcuts Help */}
+            <button
+              onClick={() => setShowHelp(true)}
+              title="Keyboard Shortcuts (?)"
+              className="p-1.5 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all hidden md:block"
+            >
+              <Keyboard className="w-4 h-4" />
+            </button>
+
+            <div className="w-px h-4 bg-flame-pink/25" />
+
+            {/* Hide Controls Button */}
+            <button
+              onClick={() => setIsNavHidden(true)}
+              title="Hide Controls (H)"
+              className="p-1.5 rounded-full hover:bg-flame-pink/20 text-flame-pink transition-all"
+            >
+              <ChevronDown className="w-4 h-4" />
+            </button>
+          </motion.footer>
+        )}
+      </AnimatePresence>
+
+      {/* Collapsed Circle Button on Bottom Left */}
+      <AnimatePresence>
+        {hasStarted && isNavHidden && (
+          <motion.button
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            onClick={() => setIsNavHidden(false)}
+            title="Show Controls Dock (Click or Press H)"
+            className="fixed bottom-4 left-4 z-40 w-14 h-14 rounded-full bg-flame-maroon-deep/95 border-2 border-flame-pink/40 hover:border-flame-pink text-flame-pink shadow-2xl backdrop-blur-md flex flex-col items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-all group"
+          >
+            <span className="font-anton text-sm text-white leading-none tracking-wider">
+              {String(currentSlideIndex + 1).padStart(2, '0')}
+            </span>
+            <span className="w-5 h-px bg-flame-pink/40 my-0.5 group-hover:bg-flame-pink transition-colors" />
+            <span className="font-mono text-[10px] text-flame-pink/70 leading-none">
+              {String(totalSlides).padStart(2, '0')}
+            </span>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Grid Overview Modal */}
       <AnimatePresence>
@@ -435,6 +510,7 @@ export default function PresentationLayout() {
                   { key: '← / PageUp', action: 'Previous slide' },
                   { key: 'Home / End', action: 'First / Last slide' },
                   { key: 'F', action: 'Toggle Fullscreen' },
+                  { key: 'H', action: 'Toggle/Hide Navigation Dock' },
                   { key: 'O / G', action: 'Toggle Slide Overview Grid' },
                   { key: '?', action: 'Toggle this Shortcuts Guide' },
                   { key: 'Esc', action: 'Close dialogs / Exit grid' },

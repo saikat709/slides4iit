@@ -1,36 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import presentationData from '../../../presentationData.json';
 import RealFlameBackground from '../RealFlameBackground';
-import { Server, Zap, CheckCircle2, Terminal, ArrowRight, ArrowDown, Database, Cpu, ShieldCheck } from 'lucide-react';
+import { Server, Zap, CheckCircle2, Terminal, ArrowDown, ShieldCheck } from 'lucide-react';
 
 export default function Slide4Solution() {
-  const pillars = [
-    {
-      title: "100% Self-Hosted & Open Source",
-      desc: "Full infrastructure control, local data residency, zero proprietary telemetry.",
-      icon: ShieldCheck,
-    },
-    {
-      title: "Drop-In Firebase SDK Compatibility",
-      desc: "Forked flamebase-js-sdk has minimal endpoint edits; swap endpoints with zero app refactors.",
-      icon: CheckCircle2,
-    },
-    {
-      title: "Rust Speed & Memory Efficiency",
-      desc: "Built with Axum + redb to target blazing microsecond latencies and zero GC pause overhead.",
-      icon: Zap,
-    },
-    {
-      title: "Predictable Flat-Rate Hosting",
-      desc: "Eliminates per-read and per-write invoices. Your only expense is your VPS / hardware.",
-      icon: Server,
-    },
-    {
-      title: "One-Command Automated Deploy",
-      desc: "Interactive CLI installer auto-provisions Docker containers, reverse proxy, and system services.",
-      icon: Terminal,
-    },
-  ];
+  const { slide4Solution } = presentationData;
+  const pillarIcons = [ShieldCheck, CheckCircle2, Zap, Server, Terminal];
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#56030F] via-flame-maroon to-[#260005] text-white relative overflow-hidden">
@@ -47,38 +23,38 @@ export default function Slide4Solution() {
         className="z-10"
       >
         <span className="text-xs font-mono font-bold tracking-widest uppercase text-flame-pink/80 bg-flame-pink/10 px-3 py-1 rounded">
-          THE FLAMEBASE APPROACH
+          {slide4Solution.category}
         </span>
         <h2 className="font-anton text-4xl sm:text-5xl md:text-6xl text-white mt-2 tracking-wide">
-          OUR <span className="text-flame-pink">PROPOSED SOLUTION</span>
+          {slide4Solution.title}
         </h2>
-        <p className="text-sm sm:text-base text-flame-pink/90 max-w-3xl mt-1">
-          A drop-in, self-hosted backend engine built in Rust—delivering complete data sovereignty with zero code rewrites.
+        <p className="text-base sm:text-lg text-flame-pink/90 max-w-3xl mt-1">
+          {slide4Solution.subtitle}
         </p>
       </motion.div>
 
       {/* Main Body: Pillars + Interactive Diagram */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 my-auto py-2 z-10 items-center">
         {/* Left: 5 Pillars List */}
-        <div className="lg:col-span-7 flex flex-col gap-2.5">
-          {pillars.map((item, idx) => {
-            const Icon = item.icon;
+        <div className="lg:col-span-7 flex flex-col gap-3">
+          {slide4Solution.pillars.map((item, idx) => {
+            const Icon = pillarIcons[idx % pillarIcons.length];
             return (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4, delay: 0.15 + idx * 0.08 }}
-                className="bg-flame-maroon-dark/80 border border-flame-pink/20 rounded-xl p-3 sm:p-3.5 flex items-start gap-3.5 hover:border-flame-pink/50 transition-colors"
+                className="bg-flame-maroon-dark/90 border border-flame-pink/25 border-t-white/20 rounded-2xl p-4 sm:p-4.5 flex items-start gap-4 hover:border-flame-pink/60 hover:scale-[1.01] transition-all shadow-xl backdrop-blur-md"
               >
-                <div className="p-2 rounded-lg bg-flame-pink/15 text-flame-pink shrink-0 mt-0.5">
-                  <Icon className="w-4 h-4" />
+                <div className="w-10 h-10 rounded-xl bg-flame-pink/20 text-flame-pink flex items-center justify-center shrink-0 mt-0.5 shadow-md">
+                  <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-white text-sm sm:text-base">
+                  <h4 className="font-bold text-white text-base sm:text-lg leading-snug">
                     {item.title}
                   </h4>
-                  <p className="text-xs text-flame-pink/80 mt-0.5 leading-relaxed">
+                  <p className="text-sm text-white/90 mt-1 leading-relaxed font-normal">
                     {item.desc}
                   </p>
                 </div>
@@ -87,28 +63,34 @@ export default function Slide4Solution() {
           })}
         </div>
 
-        {/* Right: Diagram 2 (Flamebase Architecture Flow) */}
+        {/* Right: Diagram (Flamebase Shift Architecture) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="lg:col-span-5 bg-flame-maroon-deep/90 border border-flame-pink/30 rounded-2xl p-5 shadow-2xl flex flex-col justify-between"
+          className="lg:col-span-5 bg-flame-maroon-deep/95 border border-flame-pink/35 border-t-white/20 rounded-2xl p-6 shadow-2xl flex flex-col justify-between backdrop-blur-md"
         >
           <div className="flex items-center justify-between border-b border-flame-pink/20 pb-3 mb-4">
-            <span className="font-anton text-sm tracking-wider uppercase text-flame-pink">
-              Diagram: Flamebase Shift
+            <span className="font-anton text-base tracking-wider uppercase text-flame-pink">
+              {slide4Solution.diagram.title}
             </span>
-            <span className="text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded">
-              Self-Hosted
+            <span className="text-xs font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-0.5 rounded-full font-bold">
+              {slide4Solution.diagram.badge}
             </span>
           </div>
 
-          <div className="flex flex-col gap-3">
-            {/* Layer 1: Existing App */}
-            <div className="bg-flame-maroon-dark/90 border border-flame-pink/30 rounded-xl p-3 text-center">
-              <span className="text-xs font-mono text-flame-pink/70 uppercase">Client Application</span>
-              <p className="font-bold text-white text-sm">Your Web / Mobile Codebase</p>
-              <p className="text-[11px] text-flame-pink/60 mt-0.5">(No code changes needed)</p>
+          <div className="flex flex-col gap-3.5">
+            {/* Layer 1: Client App */}
+            <div className="bg-flame-maroon-dark/95 border border-flame-pink/30 rounded-xl p-4 text-center shadow-md">
+              <span className="text-xs font-mono text-flame-pink/80 uppercase font-semibold">
+                {slide4Solution.diagram.clientTitle}
+              </span>
+              <p className="font-bold text-white text-base mt-0.5">
+                {slide4Solution.diagram.clientSub}
+              </p>
+              <p className="text-xs text-flame-pink/70 mt-0.5">
+                {slide4Solution.diagram.clientNote}
+              </p>
             </div>
 
             {/* Down Arrow */}
@@ -117,10 +99,16 @@ export default function Slide4Solution() {
             </div>
 
             {/* Layer 2: Forked SDK */}
-            <div className="bg-flame-maroon/90 border-2 border-flame-pink/60 rounded-xl p-3 text-center">
-              <span className="text-xs font-mono text-flame-pink/90 uppercase font-semibold">Drop-in Library</span>
-              <p className="font-bold text-flame-pink text-sm">flamebase-js-sdk</p>
-              <p className="text-[11px] text-white/80 mt-0.5">Points endpoints to your private server</p>
+            <div className="bg-flame-maroon/95 border-2 border-flame-pink/70 rounded-xl p-4 text-center shadow-lg">
+              <span className="text-xs font-mono text-flame-pink uppercase font-bold">
+                {slide4Solution.diagram.sdkTitle}
+              </span>
+              <p className="font-bold text-flame-pink text-base sm:text-lg mt-0.5">
+                {slide4Solution.diagram.sdkName}
+              </p>
+              <p className="text-xs text-white/90 mt-0.5 font-mono">
+                {slide4Solution.diagram.sdkNote}
+              </p>
             </div>
 
             {/* Down Arrow */}
@@ -129,18 +117,21 @@ export default function Slide4Solution() {
             </div>
 
             {/* Layer 3: Self-Hosted Rust Stack */}
-            <div className="bg-flame-maroon-dark/90 border border-flame-pink/40 rounded-xl p-3.5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold font-mono text-flame-pink">Flamebase Rust Core</span>
-                <span className="text-[10px] font-mono bg-flame-pink text-flame-maroon px-1.5 py-0.5 font-bold rounded">
-                  Axum + redb
+            <div className="bg-flame-maroon-dark/95 border border-flame-pink/40 rounded-xl p-4 shadow-md">
+              <div className="flex items-center justify-between mb-2.5">
+                <span className="text-sm font-bold font-mono text-flame-pink">
+                  {slide4Solution.diagram.coreTitle}
+                </span>
+                <span className="text-xs font-mono bg-flame-pink text-flame-maroon px-2 py-0.5 font-extrabold rounded">
+                  {slide4Solution.diagram.coreBadge}
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-1.5 text-xs font-mono text-center">
-                <div className="bg-flame-maroon/70 border border-flame-pink/20 rounded py-1 text-white">Auth (:9099)</div>
-                <div className="bg-flame-maroon/70 border border-flame-pink/20 rounded py-1 text-white">DB (:8080)</div>
-                <div className="bg-flame-maroon/70 border border-flame-pink/20 rounded py-1 text-white">Storage (:9199)</div>
-                <div className="bg-flame-maroon/70 border border-flame-pink/20 rounded py-1 text-white">Functions (:5001)</div>
+              <div className="grid grid-cols-2 gap-2 text-xs font-mono text-center font-bold">
+                {slide4Solution.diagram.ports.map((port, i) => (
+                  <div key={i} className="bg-flame-maroon/90 border border-flame-pink/25 rounded-lg py-1.5 text-white">
+                    {port}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -152,10 +143,14 @@ export default function Slide4Solution() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.45 }}
-        className="z-10 bg-flame-maroon-dark/90 border border-flame-pink/20 rounded-xl px-4 py-2.5 flex items-center justify-between text-xs text-flame-pink/80"
+        className="z-10 bg-flame-maroon-dark/90 border border-flame-pink/25 border-t-white/20 rounded-2xl px-5 py-3 flex items-center justify-between text-sm text-flame-pink/90 backdrop-blur-md shadow-xl"
       >
-        <span><strong>Key Takeaway:</strong> Developers keep their Firebase habits and frontend code, while gaining full infrastructure sovereignty.</span>
-        <span className="font-mono text-white text-[11px] hidden sm:inline">zero-lockin • apache-2.0</span>
+        <span>
+          <strong className="text-white">{slide4Solution.takeaway.strong}</strong> {slide4Solution.takeaway.text}
+        </span>
+        <span className="font-mono text-white text-xs hidden sm:inline font-bold">
+          {slide4Solution.takeaway.meta}
+        </span>
       </motion.div>
     </div>
   );

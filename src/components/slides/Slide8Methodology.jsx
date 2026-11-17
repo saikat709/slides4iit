@@ -1,53 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import presentationData from '../../../presentationData.json';
 import RealFlameBackground from '../RealFlameBackground';
-import { CheckCircle2, Clock, ArrowRight, ShieldCheck, Layers, GitMerge } from 'lucide-react';
+import { ShieldCheck, Layers } from 'lucide-react';
 
 export default function Slide8Methodology() {
-  const phases = [
-    {
-      num: "Phase 1",
-      name: "Authentication",
-      status: "COMPLETED",
-      details: "Email/Password & Google OAuth endpoints scaffolded and tested against flamebase-js-sdk.",
-      current: true,
-    },
-    {
-      num: "Phase 2",
-      name: "Database (redb)",
-      status: "IN PROGRESS",
-      details: "Embedding redb key-value store with JSON document parser and basic CRUD routes.",
-      current: false,
-    },
-    {
-      num: "Phase 3",
-      name: "Storage Engine",
-      status: "PLANNED",
-      details: "Chunked binary streaming, file uploads, asset metadata, and bucket permissions.",
-      current: false,
-    },
-    {
-      num: "Phase 4",
-      name: "Functions Engine",
-      status: "PLANNED",
-      details: "Node.js worker runtime process isolation for executing serverless JS triggers.",
-      current: false,
-    },
-    {
-      num: "Phase 5",
-      name: "Angular Console",
-      status: "PLANNED",
-      details: "Unified web UI for administrative metrics, schema exploration, and user management.",
-      current: false,
-    },
-    {
-      num: "Phase 6",
-      name: "Installer & E2E",
-      status: "PLANNED",
-      details: "Single-command deployment verification, systemd/Docker daemon, and production hardening.",
-      current: false,
-    },
-  ];
+  const { slide8Methodology } = presentationData;
+  const pillarIcons = [Layers, ShieldCheck];
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#56030F] via-flame-maroon to-[#260005] text-white relative overflow-hidden">
@@ -64,63 +23,47 @@ export default function Slide8Methodology() {
         className="z-10"
       >
         <span className="text-xs font-mono font-bold tracking-widest uppercase text-flame-pink/80 bg-flame-pink/10 px-3 py-1 rounded">
-          ENGINEERING DISCIPLINE
+          {slide8Methodology.category}
         </span>
         <h2 className="font-anton text-4xl sm:text-5xl md:text-6xl text-white mt-2 tracking-wide">
-          DEVELOPMENT <span className="text-flame-pink">METHODOLOGY</span>
+          {slide8Methodology.title}
         </h2>
-        <p className="text-sm sm:text-base text-flame-pink/90 max-w-3xl mt-1">
-          A phased, sequential microservice build cycle coupled with continuous SDK-driven compatibility testing.
+        <p className="text-base sm:text-lg text-flame-pink/90 max-w-3xl mt-1">
+          {slide8Methodology.subtitle}
         </p>
       </motion.div>
 
       {/* Core Methodology Pillars */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-auto py-2 z-10">
-        {/* Pillar 1 */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="bg-flame-maroon-dark/80 border border-flame-pink/25 rounded-2xl p-5 shadow-xl"
-        >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2.5 rounded-xl bg-flame-pink text-flame-maroon">
-              <Layers className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-anton text-xl text-white tracking-wide">
-                Sequential Service Build
-              </h3>
-              <p className="text-xs font-mono text-flame-pink/70">Isolated Milestone Execution</p>
-            </div>
-          </div>
-          <p className="text-xs sm:text-sm text-flame-pink/90 leading-relaxed font-normal">
-            Services are developed in strict sequence—starting with <strong>Authentication</strong>, progressing through <strong>Database</strong>, <strong>Storage</strong>, and <strong>Functions</strong>—while developing the <strong>Angular Dashboard</strong> concurrently to visualize each feature as it lands.
-          </p>
-        </motion.div>
-
-        {/* Pillar 2 */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-flame-maroon-dark/80 border border-flame-pink/25 rounded-2xl p-5 shadow-xl"
-        >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2.5 rounded-xl bg-flame-pink text-flame-maroon">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-anton text-xl text-white tracking-wide">
-                SDK-Driven Verification
-              </h3>
-              <p className="text-xs font-mono text-flame-pink/70">Drop-In Contract Guarantee</p>
-            </div>
-          </div>
-          <p className="text-xs sm:text-sm text-flame-pink/90 leading-relaxed font-normal">
-            Every backend API route is immediately tested directly against the official <strong>Firebase JavaScript SDK</strong>. No service is marked ready until client operations (auth tokens, reads, writes) succeed against Flamebase without client error.
-          </p>
-        </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-auto py-2 z-10">
+        {slide8Methodology.pillars.map((pillar, idx) => {
+          const Icon = pillarIcons[idx % pillarIcons.length];
+          return (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, x: idx === 0 ? -20 : 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 + idx * 0.05 }}
+              className="bg-flame-maroon-dark/90 border border-flame-pink/30 border-t-white/20 rounded-2xl p-6 sm:p-7 shadow-2xl backdrop-blur-md"
+            >
+              <div className="flex items-center gap-4 mb-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-flame-pink text-flame-maroon flex items-center justify-center shrink-0 shadow-lg">
+                  <Icon className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl sm:text-2xl text-white tracking-tight leading-snug">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider">
+                    {pillar.subtitle}
+                  </p>
+                </div>
+              </div>
+              <p className="text-sm sm:text-base text-white/90 leading-relaxed font-normal">
+                {pillar.desc}
+              </p>
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* 6-Phase Roadmap Visual Track */}
@@ -128,39 +71,39 @@ export default function Slide8Methodology() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="z-10 bg-flame-maroon-deep/90 border border-flame-pink/30 rounded-2xl p-4 shadow-xl"
+        className="z-10 bg-flame-maroon-deep/95 border border-flame-pink/35 border-t-white/20 rounded-2xl p-5 shadow-2xl backdrop-blur-md"
       >
-        <div className="flex items-center justify-between mb-3 text-xs">
-          <span className="font-anton tracking-wider uppercase text-flame-pink">
-            6-Phase Engineering Roadmap
+        <div className="flex items-center justify-between mb-3.5 text-xs">
+          <span className="font-mono text-xs font-bold tracking-wider uppercase text-flame-pink">
+            {slide8Methodology.roadmapTitle}
           </span>
-          <span className="font-mono text-[11px] text-emerald-300 bg-emerald-950/80 border border-emerald-800/40 px-2.5 py-0.5 rounded">
-            Phase 1 Scaffold Complete
+          <span className="font-mono text-xs text-emerald-300 bg-emerald-950/90 border border-emerald-700/50 px-3 py-1 rounded-full font-bold">
+            {slide8Methodology.roadmapBadge}
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-          {phases.map((p, i) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {slide8Methodology.phases.map((p, i) => (
             <div
               key={i}
-              className={`rounded-xl p-2.5 flex flex-col justify-between border text-xs transition-all ${
+              className={`rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between border transition-all ${
                 p.current
-                  ? 'bg-flame-pink text-flame-maroon border-white shadow-lg'
-                  : 'bg-flame-maroon-dark/70 text-flame-pink/80 border-flame-pink/20'
+                  ? 'bg-flame-pink text-flame-maroon border-white shadow-xl scale-[1.02]'
+                  : 'bg-flame-maroon-dark/80 text-flame-pink/90 border-flame-pink/20 hover:border-flame-pink/40'
               }`}
             >
               <div>
-                <div className="flex items-center justify-between font-mono text-[10px] font-bold mb-1">
+                <div className="flex items-center justify-between font-mono text-xs font-extrabold mb-1.5">
                   <span>{p.num}</span>
-                  <span className={p.current ? 'text-emerald-800' : 'text-flame-pink/50'}>
+                  <span className={p.current ? 'text-emerald-800' : 'text-flame-pink/60'}>
                     {p.status}
                   </span>
                 </div>
-                <h5 className={`font-anton text-sm ${p.current ? 'text-flame-maroon' : 'text-white'}`}>
+                <h5 className={`font-bold text-base leading-snug ${p.current ? 'text-flame-maroon' : 'text-white'}`}>
                   {p.name}
                 </h5>
               </div>
-              <p className={`text-[10px] mt-1.5 leading-tight ${p.current ? 'text-flame-maroon/90 font-medium' : 'text-flame-pink/60'}`}>
+              <p className={`text-xs mt-2 leading-relaxed ${p.current ? 'text-flame-maroon/95 font-medium' : 'text-white/80'}`}>
                 {p.details}
               </p>
             </div>

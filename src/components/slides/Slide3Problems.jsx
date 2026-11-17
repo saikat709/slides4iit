@@ -1,35 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import presentationData from '../../../presentationData.json';
 import RealFlameBackground from '../RealFlameBackground';
-import { Lock, DollarSign, Link2Off, AlertTriangle, ShieldAlert, Cpu } from 'lucide-react';
+import { Lock, DollarSign, Link2Off, Cpu } from 'lucide-react';
 
 export default function Slide3Problems() {
-  const problems = [
-    {
-      number: "01",
-      title: "No Data or Infra Control",
-      icon: Lock,
-      subtitle: "Black-Box Cloud Infrastructure",
-      description: "Proprietary backend services cannot be self-hosted, audited, or modified. Developers have zero visibility into backend runtime internals, and organizations cannot enforce strict local data residency or compliance boundaries.",
-      impact: "Zero Self-Hosting • Inaccessible Internals",
-    },
-    {
-      number: "02",
-      title: "Per-Query Pricing",
-      icon: DollarSign,
-      subtitle: "Unpredictable Scaling Invoices",
-      description: "Cloud billing models charge continuously for every database read, document write, delete operation, and API invocation. An unexpected traffic surge, loop bug, or viral event can trigger catastrophic billing shocks.",
-      impact: "Pay-Per-Read/Write • Incurring Bill Shocks",
-    },
-    {
-      number: "03",
-      title: "Vendor Lock-In",
-      icon: Link2Off,
-      subtitle: "Tied to Google Cloud Architecture",
-      description: "Applications deeply integrate closed Firebase SDKs and proprietary security rules. Migrating away to alternative hosting providers requires painful, high-cost codebase rewrites and database migrations.",
-      impact: "High Migration Barrier • Proprietary APIs",
-    },
-  ];
+  const { slide3Problems } = presentationData;
+  const problemIcons = [Lock, DollarSign, Link2Off];
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#580310] via-flame-maroon to-[#240004] text-white relative overflow-hidden">
@@ -46,54 +23,54 @@ export default function Slide3Problems() {
         className="z-10"
       >
         <span className="text-xs font-mono font-bold tracking-widest uppercase text-flame-pink/80 bg-flame-pink/10 px-3 py-1 rounded">
-          MOTIVATION & CHALLENGES
+          {slide3Problems.category}
         </span>
         <h2 className="font-anton text-4xl sm:text-5xl md:text-6xl text-white mt-2 tracking-wide">
-          WHY RETHINK <span className="text-flame-pink">FIREBASE?</span>
+          {slide3Problems.title}
         </h2>
-        <p className="text-sm sm:text-base text-flame-pink/90 max-w-3xl mt-1">
-          While managed cloud platforms provide convenience, they impose fundamental infrastructure risks on modern engineering teams.
+        <p className="text-base sm:text-lg text-flame-pink/90 max-w-3xl mt-1">
+          {slide3Problems.subtitle}
         </p>
       </motion.div>
 
       {/* 3 Core Problem Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-auto py-4 z-10">
-        {problems.map((prob, idx) => {
-          const Icon = prob.icon;
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 my-auto py-3 z-10">
+        {slide3Problems.problems.map((prob, idx) => {
+          const Icon = problemIcons[idx % problemIcons.length];
           return (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 + idx * 0.12 }}
-              className="bg-flame-maroon-dark/80 border border-flame-pink/25 rounded-2xl p-6 flex flex-col justify-between shadow-xl relative group hover:border-flame-pink/60 transition-all hover:translate-y-[-2px]"
+              className="bg-flame-maroon-dark/90 border border-flame-pink/30 border-t-white/20 rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-2xl relative group hover:border-flame-pink/60 transition-all hover:scale-[1.02] backdrop-blur-md"
             >
               {/* Card top accent */}
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-anton text-3xl text-flame-pink/40 group-hover:text-flame-pink transition-colors">
+                  <span className="font-anton text-4xl text-flame-pink/40 group-hover:text-flame-pink transition-colors">
                     {prob.number}
                   </span>
-                  <div className="w-10 h-10 rounded-xl bg-flame-pink/10 border border-flame-pink/30 flex items-center justify-center text-flame-pink">
-                    <Icon className="w-5 h-5" />
+                  <div className="w-12 h-12 rounded-2xl bg-flame-pink/15 border border-flame-pink/30 flex items-center justify-center text-flame-pink shadow-md">
+                    <Icon className="w-6 h-6" />
                   </div>
                 </div>
 
-                <h3 className="font-anton text-xl sm:text-2xl text-white tracking-wide">
+                <h3 className="font-bold text-xl sm:text-2xl text-white tracking-tight leading-snug">
                   {prob.title}
                 </h3>
-                <p className="text-xs font-mono text-flame-pink/70 uppercase tracking-wider mt-0.5 mb-3">
+                <p className="text-xs font-mono text-amber-300 font-bold uppercase tracking-wider mt-1 mb-3">
                   {prob.subtitle}
                 </p>
 
-                <p className="text-xs sm:text-sm text-flame-pink/90 leading-relaxed font-normal">
+                <p className="text-sm sm:text-base text-white/90 leading-relaxed font-normal">
                   {prob.description}
                 </p>
               </div>
 
               {/* Bottom Tag */}
-              <div className="mt-5 pt-3 border-t border-flame-pink/15">
-                <span className="text-[11px] font-mono text-rose-300 bg-rose-950/60 border border-rose-800/40 px-2.5 py-1 rounded-md block text-center font-medium">
+              <div className="mt-6 pt-3.5 border-t border-flame-pink/20">
+                <span className="text-xs font-mono text-rose-200 bg-rose-950/80 border border-rose-700/50 px-3 py-1.5 rounded-lg block text-center font-semibold shadow-sm">
                   {prob.impact}
                 </span>
               </div>
@@ -107,14 +84,16 @@ export default function Slide3Problems() {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.45 }}
-        className="z-10 bg-flame-maroon-dark/95 border border-flame-pink/30 rounded-xl p-3.5 flex items-center gap-3.5 text-xs text-flame-pink/90"
+        className="z-10 bg-flame-maroon-dark/95 border border-flame-pink/35 border-t-white/20 rounded-2xl p-4 sm:p-5 flex items-center gap-4 text-sm sm:text-base text-white/95 shadow-xl backdrop-blur-md"
       >
-        <div className="p-2 rounded-lg bg-flame-pink/15 text-flame-pink shrink-0">
-          <Cpu className="w-5 h-5" />
+        <div className="p-2.5 rounded-xl bg-flame-pink/15 text-flame-pink shrink-0">
+          <Cpu className="w-6 h-6" />
         </div>
         <div>
-          <span className="font-bold text-white uppercase tracking-wider font-mono mr-2">Design Goal Framing:</span>
-          Flamebase does not dispute the raw speed of Google's cloud; rather, <strong>performance and low RAM overhead</strong> are explicit architectural <em>design goals</em> achieved by writing Flamebase natively in <strong>Rust</strong>.
+          <span className="font-bold text-flame-pink uppercase tracking-wider font-mono mr-2">
+            {slide3Problems.framing.label}
+          </span>
+          {slide3Problems.framing.text}
         </div>
       </motion.div>
     </div>

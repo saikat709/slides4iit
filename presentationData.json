@@ -1,0 +1,415 @@
+{
+  "meta": {
+    "title": "Flamebase",
+    "tagline": "Open-source, faster Firebase alternative",
+    "description": "An open-source, self-hosted, faster, and optimized Firebase alternative built in Rust.",
+    "subDescription": "Built from the ground up for full infrastructure ownership, predictable flat-rate costs, and drop-in client compatibility.",
+    "status": "Early scaffold stage (Phase 1 of 6 complete)",
+    "license": "Apache-2.0",
+    "ecosystem": "Rust + Axum Ecosystem",
+    "githubUrl": "https://github.com/flamebase-org/flamebase",
+    "githubRepo": "flamebase-org/flamebase",
+    "website": "flamebase.dev",
+    "team": [
+      {
+        "name": "Md. Saikat Islam",
+        "role": "Developer",
+        "title": "Core Rust Backend & Client SDK Developer"
+      },
+      {
+        "name": "Md. Afif Hasan",
+        "role": "Developer",
+        "title": "Core Rust Backend & Client SDK Developer"
+      }
+    ],
+    "supervisor": {
+      "name": "Mridha Md. Nafis Fuad",
+      "role": "Project Supervisor",
+      "designation": "Faculty Advisor"
+    }
+  },
+  "slide1Cover": {
+    "badge": "High-Performance Self-Hosted Cloud Backend",
+    "brandFirst": "FLAME",
+    "brandSecond": "BASE",
+    "pillars": [
+      "100% Rust Backend",
+      "Drop-in Firebase JS SDK",
+      "redb Embedded Storage",
+      "One-Command Deployment",
+      "Axum Async Engine"
+    ]
+  },
+  "slide2Firebase": {
+    "category": "ARCHITECTURAL CONTEXT",
+    "title": "WHAT IS FIREBASE?",
+    "subtitle": "A fully-managed Backend-as-a-Service (BaaS) connecting client applications directly to proprietary Google Cloud backend microservices.",
+    "pipeline": {
+      "tag": "Standard Firebase Pipeline",
+      "cloudBadge": "Proprietary Google Cloud",
+      "clientApp": "Client Application",
+      "clientSub": "Web, iOS, Android Apps",
+      "sdk": "Firebase SDK",
+      "sdkSub": "firebase-js-sdk Client Library",
+      "hostedTitle": "Google-Hosted Microservices",
+      "services": ["Authentication", "Cloud Firestore", "Cloud Storage", "Cloud Functions"]
+    },
+    "services": [
+      {
+        "name": "Authentication",
+        "role": "User identity verification & session management (Email/Pass, OAuth, Custom Tokens)."
+      },
+      {
+        "name": "Database (Firestore)",
+        "role": "Document & JSON NoSQL cloud datastore with realtime synchronization hooks."
+      },
+      {
+        "name": "Cloud Storage",
+        "role": "Scalable object storage for user media, file uploads, and static asset blobs."
+      },
+      {
+        "name": "Cloud Functions",
+        "role": "Serverless backend compute executing event-driven JavaScript & TypeScript logic."
+      }
+    ],
+    "shiftBanner": {
+      "title": "The Flamebase Shift",
+      "description": "Flamebase replicates this exact architecture so apps switch to self-hosted servers simply by swapping service endpoints.",
+      "badge": "Zero Code Refactor"
+    }
+  },
+  "slide3Problems": {
+    "category": "MOTIVATION & CHALLENGES",
+    "title": "WHY RETHINK FIREBASE?",
+    "subtitle": "While managed cloud platforms provide convenience, they impose fundamental infrastructure risks on modern engineering teams.",
+    "problems": [
+      {
+        "number": "01",
+        "title": "No Data or Infra Control",
+        "subtitle": "Black-Box Cloud Infrastructure",
+        "description": "Proprietary backend services cannot be self-hosted, audited, or modified. Developers have zero visibility into runtime internals, and organizations cannot enforce strict local data residency or compliance boundaries.",
+        "impact": "Zero Self-Hosting • Inaccessible Internals"
+      },
+      {
+        "number": "02",
+        "title": "Per-Query Pricing",
+        "subtitle": "Unpredictable Scaling Invoices",
+        "description": "Cloud billing charges continuously for every single database read, document write, delete operation, and API invocation. An unexpected traffic surge, loop bug, or viral event can trigger catastrophic billing shocks.",
+        "impact": "Pay-Per-Read/Write • Incurring Bill Shocks"
+      },
+      {
+        "number": "03",
+        "title": "Vendor Lock-In",
+        "subtitle": "Tied to Google Cloud Architecture",
+        "description": "Applications deeply integrate closed Firebase SDKs and proprietary security rules. Migrating away to alternative hosting providers requires painful, high-cost codebase rewrites and database migrations.",
+        "impact": "High Migration Barrier • Proprietary APIs"
+      }
+    ],
+    "framing": {
+      "label": "Design Goal Framing:",
+      "text": "Flamebase does not dispute the raw speed of Google's cloud; rather, performance and low RAM overhead are explicit architectural design goals achieved by writing Flamebase natively in Rust."
+    }
+  },
+  "slide4Solution": {
+    "category": "THE FLAMEBASE APPROACH",
+    "title": "OUR PROPOSED SOLUTION",
+    "subtitle": "A drop-in, self-hosted backend engine built in Rust—delivering complete data sovereignty with zero code rewrites.",
+    "pillars": [
+      {
+        "title": "100% Self-Hosted & Open Source",
+        "desc": "Full infrastructure control, local data residency, zero proprietary telemetry."
+      },
+      {
+        "title": "Drop-In Firebase SDK Compatibility",
+        "desc": "Forked flamebase-js-sdk has minimal endpoint edits; swap endpoints with zero app refactors."
+      },
+      {
+        "title": "Rust Speed & Memory Efficiency",
+        "desc": "Built with Axum + redb to target blazing microsecond latencies and zero GC pause overhead."
+      },
+      {
+        "title": "Predictable Flat-Rate Hosting",
+        "desc": "Eliminates per-read and per-write invoices. Your only expense is your VPS / hardware."
+      },
+      {
+        "title": "One-Command Automated Deploy",
+        "desc": "Interactive CLI installer auto-provisions Docker containers, reverse proxy, and system services."
+      }
+    ],
+    "diagram": {
+      "title": "Diagram: Flamebase Shift",
+      "badge": "Self-Hosted",
+      "clientTitle": "Client Application",
+      "clientSub": "Your Web / Mobile Codebase",
+      "clientNote": "(No code changes needed)",
+      "sdkTitle": "Drop-in Library",
+      "sdkName": "flamebase-js-sdk",
+      "sdkNote": "Points endpoints to your private server",
+      "coreTitle": "Flamebase Rust Core",
+      "coreBadge": "Axum + redb",
+      "ports": ["Auth (:9099)", "DB (:8080)", "Storage (:9199)", "Functions (:5001)"]
+    },
+    "takeaway": {
+      "strong": "Key Takeaway:",
+      "text": "Developers keep their Firebase client code, while gaining full infrastructure sovereignty.",
+      "meta": "zero-lockin • apache-2.0"
+    }
+  },
+  "slide5Features": {
+    "category": "CORE SERVICES ARCHITECTURE",
+    "title": "KEY FEATURES & DEDICATED PORTS",
+    "subtitle": "Four decoupled, high-speed backend services mirroring Firebase endpoints, plus a unified administrative console.",
+    "services": [
+      {
+        "title": "Flamebase Authentication",
+        "port": "9099",
+        "tag": "Identity & Tokens",
+        "details": "Full authentication engine supporting Mobile/Email + Password and Google OAuth. The scaffold also includes architectural hooks for anonymous logins and custom token verification.",
+        "tech": "Rust / Axum • Port 9099"
+      },
+      {
+        "title": "Flamebase Database",
+        "port": "8080",
+        "tag": "Document Store",
+        "details": "High-speed document & JSON data store powered by redb (an embedded, pure-Rust ACID key-value database), replacing Firestore with zero external database server dependencies.",
+        "tech": "redb Embedded Engine • Port 8080"
+      },
+      {
+        "title": "Flamebase Functions",
+        "port": "5001",
+        "tag": "Serverless Compute",
+        "details": "Executes custom server-side functions in dedicated Node.js worker runtimes with sandbox boundaries, enabling serverless logic without cloud vendor lock-in.",
+        "tech": "Node.js Worker Runtime • Port 5001"
+      },
+      {
+        "title": "Flamebase Storage",
+        "port": "9199",
+        "tag": "Object Storage",
+        "details": "Self-hosted file, media, and asset storage system with direct streaming capabilities and granular permission checking matching Firebase storage buckets.",
+        "tech": "Rust File Engine • Port 9199"
+      }
+    ],
+    "console": {
+      "title": "Management Console / Dashboard",
+      "port": "4000",
+      "badge": "Angular Web UI",
+      "description": "Comprehensive web administration dashboard built with Angular for configuring authentication, inspecting redb documents, and monitoring microservices."
+    }
+  },
+  "slide6Stakeholders": {
+    "category": "ECOSYSTEM & VALUE DISTRIBUTION",
+    "title": "STAKEHOLDERS & TARGET AUDIENCE",
+    "subtitle": "Designed specifically to empower every role across the product development lifecycle.",
+    "stakeholders": [
+      {
+        "role": "Frontend & Mobile Devs",
+        "desc": "Primary consumers of the client SDK across web, Android, and iOS applications with zero learning curve."
+      },
+      {
+        "role": "Backend Developers",
+        "desc": "Write serverless event-driven Functions, configure redb data schemas, and integrate microservices."
+      },
+      {
+        "role": "DevOps Engineers",
+        "desc": "Install, package, and orchestrate Flamebase instances reliably using the automated one-command installer."
+      },
+      {
+        "role": "Project Administrators",
+        "desc": "Manage user permissions, monitor database metrics, and control security rules via the Angular Console."
+      },
+      {
+        "role": "End Users",
+        "desc": "Experience high-speed, responsive applications with absolute data privacy and guaranteed uptime."
+      }
+    ],
+    "targetUsers": [
+      {
+        "title": "Startups & Small Teams",
+        "desc": "Looking to reduce and stabilize backend infrastructure costs without unpredictable per-query cloud bills."
+      },
+      {
+        "title": "Students & Indie Developers",
+        "desc": "Needing an accessible, self-hosted backend platform for hackathons and projects without billing surprises."
+      },
+      {
+        "title": "Organizations & Institutions",
+        "desc": "Requiring strict data sovereignty, compliance boundaries, and 100% full ownership on private hardware."
+      }
+    ]
+  },
+  "slide7TechStack": {
+    "category": "SYSTEM SPECIFICATIONS",
+    "title": "TECHNOLOGIES & ARCHITECTURAL STACK",
+    "subtitle": "A carefully chosen, high-performance technology matrix optimized for developer ergonomics and native speed.",
+    "stack": [
+      {
+        "layer": "Backend Services",
+        "tech": "Rust + Axum",
+        "role": "High throughput, memory safety without GC pause overhead, low memory footprint.",
+        "badge": "Core Engine"
+      },
+      {
+        "layer": "Database Engine",
+        "tech": "redb (Pure Rust)",
+        "role": "Embedded ACID key-value store natively handling JSON; zero external DB daemon needed.",
+        "badge": "Zero DB Daemon"
+      },
+      {
+        "layer": "Client SDK",
+        "tech": "flamebase-js-sdk",
+        "role": "Forked TypeScript/JS SDK providing drop-in compatibility with existing Firebase apps.",
+        "badge": "Drop-in API"
+      },
+      {
+        "layer": "Management Dashboard",
+        "tech": "TypeScript + Angular",
+        "role": "Administrative web console to manage users, permissions, and inspect live services.",
+        "badge": "Web Console"
+      },
+      {
+        "layer": "Functions Runtime",
+        "tech": "Node.js Worker",
+        "role": "Executes custom user serverless event functions in isolated process sandboxes.",
+        "badge": "Serverless"
+      },
+      {
+        "layer": "Packaging & Deploy",
+        "tech": "Docker + Compose + Shell",
+        "role": "One-command deployment orchestrating containers, ports, and reverse proxies.",
+        "badge": "Single Command"
+      },
+      {
+        "layer": "Build & Versioning",
+        "tech": "Cargo Monorepo + Git",
+        "role": "Unified Cargo workspace managing the microservices with strict Rust dependency bounds.",
+        "badge": "Monorepo"
+      }
+    ],
+    "pipelineSummary": {
+      "label": "PIPELINE:",
+      "steps": ["Client App", "flamebase-js-sdk", "Axum Services", "redb"],
+      "badge": "Pure Rust Backend"
+    }
+  },
+  "slide8Methodology": {
+    "category": "ENGINEERING DISCIPLINE",
+    "title": "DEVELOPMENT METHODOLOGY",
+    "subtitle": "A phased, sequential microservice build cycle coupled with continuous SDK-driven compatibility testing.",
+    "pillars": [
+      {
+        "title": "Sequential Service Build",
+        "subtitle": "Isolated Milestone Execution",
+        "desc": "Services are developed in strict sequence—starting with Authentication, progressing through Database, Storage, and Functions—while developing the Angular Dashboard concurrently to visualize each feature as it lands."
+      },
+      {
+        "title": "SDK-Driven Verification",
+        "subtitle": "Drop-In Contract Guarantee",
+        "desc": "Every backend API route is immediately tested directly against the official Firebase JavaScript SDK. No service is marked ready until client operations (auth tokens, reads, writes) succeed against Flamebase without client error."
+      }
+    ],
+    "roadmapTitle": "6-Phase Engineering Roadmap",
+    "roadmapBadge": "Phase 1 Scaffold Complete",
+    "phases": [
+      {
+        "num": "Phase 1",
+        "name": "Authentication",
+        "status": "COMPLETED",
+        "details": "Email/Password & Google OAuth endpoints scaffolded and tested against flamebase-js-sdk.",
+        "current": true
+      },
+      {
+        "num": "Phase 2",
+        "name": "Database (redb)",
+        "status": "IN PROGRESS",
+        "details": "Embedding redb key-value store with JSON document parser and basic CRUD routes.",
+        "current": false
+      },
+      {
+        "num": "Phase 3",
+        "name": "Storage Engine",
+        "status": "PLANNED",
+        "details": "Chunked binary streaming, file uploads, asset metadata, and bucket permissions.",
+        "current": false
+      },
+      {
+        "num": "Phase 4",
+        "name": "Functions Engine",
+        "status": "PLANNED",
+        "details": "Node.js worker runtime process isolation for executing serverless JS triggers.",
+        "current": false
+      },
+      {
+        "num": "Phase 5",
+        "name": "Angular Console",
+        "status": "PLANNED",
+        "details": "Unified web UI for administrative metrics, schema exploration, and user management.",
+        "current": false
+      },
+      {
+        "num": "Phase 6",
+        "name": "Installer & E2E",
+        "status": "PLANNED",
+        "details": "Single-command deployment verification, systemd/Docker daemon, and production hardening.",
+        "current": false
+      }
+    ]
+  },
+  "slide9Codebase": {
+    "category": "ECOSYSTEM TOPOLOGY",
+    "title": "CODEBASE STRUCTURE",
+    "subtitle": "A decoupled, tripartite repository architecture designed for independent testing and rapid release cycles.",
+    "repositories": [
+      {
+        "name": "flamebase-js-sdk",
+        "type": "Client Library",
+        "repo": "flamebase-org/flamebase-js-sdk",
+        "tech": "TypeScript / JavaScript",
+        "desc": "Direct fork of official firebase-js-sdk. Retains identical client interfaces while routing network requests to self-hosted Flamebase microservice ports.",
+        "highlights": [
+          "Minimal endpoint modifications",
+          "Identical import syntax for developers",
+          "Tested against live Rust server"
+        ]
+      },
+      {
+        "name": "flamebase (Monorepo)",
+        "type": "Core Backend Services",
+        "repo": "flamebase-org/flamebase",
+        "tech": "Rust / Cargo Workspace",
+        "desc": "Unified Cargo monorepo containing all 4 core Axum services (Auth, DB, Functions, Storage) and embedded Angular dashboard distribution.",
+        "highlights": [
+          "Cargo workspace with shared crate models",
+          "Pure-Rust Axum async HTTP runtime",
+          "redb embedded transactional engine"
+        ]
+      },
+      {
+        "name": "installer",
+        "type": "DevOps & Automation",
+        "repo": "flamebase-org/installer",
+        "tech": "Shell / Docker Compose",
+        "desc": "Streamlined single-command installer script that configures environment variables, Docker networks, TLS reverse proxies, and healthcheck monitors.",
+        "highlights": [
+          "Interactive CLI wizard",
+          "Automated Docker container orchestration",
+          "Zero-configuration setup"
+        ]
+      }
+    ],
+    "integration": {
+      "label": "Integration Pipeline:",
+      "client": "flamebase-js-sdk",
+      "core": "flamebase Monorepo (Rust Core)",
+      "installer": "installer CLI",
+      "badge": "One Ecosystem"
+    }
+  },
+  "slide10Conclusion": {
+    "tag": "Next-Gen Cloud Infrastructure",
+    "title": "THANK YOU",
+    "tagline": "Open-source, faster Firebase alternative",
+    "description": "An open-source, self-hosted, faster, and optimized Firebase alternative built in Rust—delivering complete data sovereignty with drop-in client compatibility.",
+    "footerText": "Flamebase: Open-source, faster Firebase alternative built in Rust.",
+    "footerDomain": "flamebase.dev"
+  }
+}

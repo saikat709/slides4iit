@@ -48,6 +48,16 @@ npm run build
 
 ---
 
+## ✏️ How to Edit Presentation Texts & Content
+
+All presentation texts, titles, descriptions, bullets, ports, team credits, and links are centralized in a single JSON file in the project root:
+
+📄 **[presentationData.json](file:///home/saikat/Desktop/sem5presentations/presentationData.json)**
+
+Simply open `presentationData.json` and change any words, names, or sentences. Every slide automatically updates!
+
+---
+
 ## ⌨️ Presentation Keyboard Controls
 
 | Key | Action |

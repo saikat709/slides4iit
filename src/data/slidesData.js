@@ -1,89 +1,78 @@
-export const presentationMeta = {
-  title: "Flamebase",
-  tagline: "Open-source, faster Firebase alternative",
-  description: "An open-source, self-hosted, faster, and optimized Firebase alternative built in Rust.",
-  github: "https://github.com/flamebase-org/flamebase",
-  license: "Apache-2.0",
-  status: "Early scaffold stage (Phase 1 of 6 complete)",
-  team: [
-    { name: "Md. Saikat Islam", role: "Developer" },
-    { name: "Md. Afif Hasan", role: "Developer" }
-  ],
-  supervisor: {
-    name: "Mridha Md. Nafis Fuad",
-    role: "Project Supervisor"
-  }
-};
+import presentationData from '../../presentationData.json';
+
+export const presentationMeta = presentationData.meta;
 
 export const slides = [
   {
     id: 1,
     slug: "cover",
-    title: "FLAMEBASE",
+    title: presentationData.meta.title.toUpperCase(),
     category: "PROJECT OVERVIEW",
     theme: "maroon",
   },
   {
     id: 2,
     slug: "what-is-firebase",
-    title: "WHAT IS FIREBASE?",
-    category: "ARCHITECTURAL CONTEXT",
+    title: presentationData.slide2Firebase.title,
+    category: presentationData.slide2Firebase.category,
     theme: "maroon",
   },
   {
     id: 3,
     slug: "problem",
-    title: "MOTIVATION & PROBLEM",
-    category: "PROBLEM STATEMENT",
+    title: presentationData.slide3Problems.title,
+    category: presentationData.slide3Problems.category,
     theme: "maroon",
   },
   {
     id: 4,
     slug: "solution",
-    title: "PROPOSED SOLUTION",
-    category: "CORE VALUE PROPOSITION",
+    title: presentationData.slide4Solution.title,
+    category: presentationData.slide4Solution.category,
     theme: "maroon",
   },
   {
     id: 5,
     slug: "features",
-    title: "KEY FEATURES",
-    category: "CORE SERVICES & PORTS",
+    title: presentationData.slide5Features.title,
+    category: presentationData.slide5Features.category,
     theme: "pink",
   },
   {
     id: 6,
     slug: "stakeholders",
-    title: "STAKEHOLDERS & USERS",
-    category: "AUDIENCE & IMPACT",
+    title: presentationData.slide6Stakeholders.title,
+    category: presentationData.slide6Stakeholders.category,
     theme: "pink",
   },
   {
     id: 7,
     slug: "technologies",
-    title: "TECHNOLOGIES & TOOLS",
-    category: "SYSTEM ARCHITECTURE",
+    title: presentationData.slide7TechStack.title,
+    category: presentationData.slide7TechStack.category,
     theme: "pink",
   },
   {
     id: 8,
     slug: "methodology",
-    title: "DEVELOPMENT METHODOLOGY",
-    category: "EXECUTION STRATEGY",
+    title: presentationData.slide8Methodology.title,
+    category: presentationData.slide8Methodology.category,
     theme: "maroon",
   },
   {
     id: 9,
     slug: "codebase",
-    title: "CODEBASE STRUCTURE",
-    category: "REPOSITORIES & INTEGRATION",
+    title: presentationData.slide9Codebase.title,
+    category: presentationData.slide9Codebase.category,
     theme: "maroon",
   },
   {
     id: 10,
     slug: "team-and-thanks",
-    title: "TEAM & THANK YOU",
-    category: "COLLABORATION & Q&A",
+    title: presentationData.slide10Conclusion.title,
+    category: "PROJECT CONCLUSION",
     theme: "maroon",
   }
 ];
+
+export default presentationData;
