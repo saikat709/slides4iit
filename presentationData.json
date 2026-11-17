@@ -52,7 +52,7 @@
       "sdk": "Firebase SDK",
       "sdkSub": "firebase-js-sdk Client Library",
       "hostedTitle": "Google-Hosted Microservices",
-      "services": ["Authentication", "Cloud Firestore", "Cloud Storage", "Cloud Functions"]
+      "services": ["Authentication", "Firebase Firestore", "Firebase Storage", "Firebase Functions"]
     },
     "services": [
       {
