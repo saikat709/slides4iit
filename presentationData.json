@@ -313,36 +313,36 @@
       {
         "num": "Phase 1",
         "name": "Authentication",
-        "status": "COMPLETED",
+        "status": "Working",
         "details": "Email/Password & Google OAuth endpoints scaffolded and tested against flamebase-js-sdk.",
         "current": true
       },
       {
         "num": "Phase 2",
+        "name": "Angular Console",
+        "status": "PLANNED",
+        "details": "Unified web UI for administrative metrics, schema exploration, and user management.",
+        "current": false
+      },
+      {
+        "num": "Phase 3",
         "name": "Database (redb)",
         "status": "IN PROGRESS",
         "details": "Embedding redb key-value store with JSON document parser and basic CRUD routes.",
         "current": false
       },
       {
-        "num": "Phase 3",
+        "num": "Phase 4",
         "name": "Storage Engine",
         "status": "PLANNED",
         "details": "Chunked binary streaming, file uploads, asset metadata, and bucket permissions.",
         "current": false
       },
       {
-        "num": "Phase 4",
+        "num": "Phase 5",
         "name": "Functions Engine",
         "status": "PLANNED",
         "details": "Node.js worker runtime process isolation for executing serverless JS triggers.",
-        "current": false
-      },
-      {
-        "num": "Phase 5",
-        "name": "Angular Console",
-        "status": "PLANNED",
-        "details": "Unified web UI for administrative metrics, schema exploration, and user management.",
         "current": false
       },
       {
