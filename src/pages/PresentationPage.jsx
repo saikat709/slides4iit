@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useLocation, useNavigate, Link } from 'react-router-dom';
 import { getPresentationBySlug, ownerInfo } from '../presentations/registry.js';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 
-export default function PresentationPage() {
+export default function PresentationPage({ defaultSlug }) {
   const { slug } = useParams();
+  const location = useLocation();
+  const rawPath = location.pathname.replace(/^\/+/, '').split('/')[0];
+  const activeSlug = defaultSlug || slug || rawPath;
   const navigate = useNavigate();
-  const presentation = getPresentationBySlug(slug);
+  const presentation = getPresentationBySlug(activeSlug);
 
   useEffect(() => {
     if (presentation) {
@@ -24,7 +27,7 @@ export default function PresentationPage() {
         </div>
         <h1 className="text-3xl font-bold tracking-tight text-white mb-2">Presentation Not Found</h1>
         <p className="text-sm text-flame-pink/70 max-w-md mb-6 font-mono">
-          No presentation matching <span className="text-white bg-black/40 px-2 py-0.5 rounded">/{slug}</span> was found in the registry.
+          No presentation matching <span className="text-white bg-black/40 px-2 py-0.5 rounded">/{activeSlug || 'unknown'}</span> was found in the registry.
         </p>
         <Link
           to="/"

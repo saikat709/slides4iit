@@ -11,7 +11,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
 
         {/* Short typing slug for Flamebase presentation */}
-        <Route path="/flamebase1" element={<PresentationPage />} />
+        <Route path="/flamebase1" element={<PresentationPage defaultSlug="flamebase1" />} />
 
         {/* Friendly aliases redirecting to /flamebase1 */}
         <Route path="/flamebase" element={<Navigate to="/flamebase1" replace />} />
