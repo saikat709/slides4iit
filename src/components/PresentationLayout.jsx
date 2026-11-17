@@ -247,9 +247,9 @@ export default function PresentationLayout() {
         />
       </div>
 
-      {/* Main Slide Presentation Canvas (Preserves 16:9 widescreen or fills neatly) */}
-      <main className="flex-1 w-full h-full relative overflow-hidden flex items-center justify-center p-0 md:p-2 lg:p-4">
-        <div className="w-full h-full max-w-[1920px] max-h-[1080px] aspect-[16/9] shadow-2xl rounded-none md:rounded-2xl overflow-hidden relative flex flex-col">
+      {/* Main Slide Presentation Canvas (Fits neatly on all screen sizes without vertical cutoff) */}
+      <main className="flex-1 w-full h-full relative overflow-hidden flex items-center justify-center p-0 sm:p-1 md:p-2 lg:p-3">
+        <div className="w-full h-full max-w-[1920px] max-h-[1080px] shadow-2xl rounded-none md:rounded-2xl overflow-hidden relative flex flex-col">
           <AnimatePresence custom={direction} mode="wait">
             <motion.div
               key={currentSlideIndex}

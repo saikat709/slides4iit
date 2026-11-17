@@ -11,7 +11,7 @@ export default function Slide6Stakeholders() {
   const targetUserIcons = [Rocket, GraduationCap, Building2];
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#FFF5F6] via-[#FEDEE1] to-[#FCD2D8] text-flame-maroon relative overflow-hidden">
+    <div className="w-full h-full flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-b from-[#FFF5F6] via-[#FEDEE1] to-[#FCD2D8] text-flame-maroon relative overflow-hidden">
       {/* Light gradient lighting and ambient flame */}
       <div className="absolute inset-0 bg-radial-gradient from-white/60 via-transparent to-flame-pink/40 pointer-events-none" />
       <RealFlameBackground colorPreset="ambient" flameHeight="bottom" intensity={0.5} showEmbers={true} />
@@ -19,18 +19,18 @@ export default function Slide6Stakeholders() {
 
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: -15 }}
+        initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="z-10"
+        transition={{ duration: 0.45 }}
+        className="z-10 shrink-0"
       >
-        <span className="text-xs font-mono font-bold tracking-widest uppercase text-white bg-flame-maroon px-3 py-1 rounded">
+        <span className="text-[11px] sm:text-xs font-mono font-bold tracking-widest uppercase text-white bg-flame-maroon px-2.5 py-0.5 sm:px-3 sm:py-1 rounded">
           {slide6Stakeholders.category}
         </span>
-        <h2 className="font-anton text-4xl sm:text-5xl md:text-6xl text-flame-maroon mt-2 tracking-wide">
+        <h2 className="font-anton text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-flame-maroon mt-1 sm:mt-1.5 tracking-wide leading-tight">
           {slide6Stakeholders.title}
         </h2>
-        <p className="text-base sm:text-lg text-flame-maroon/90 max-w-3xl mt-1 font-medium">
+        <p className="text-xs sm:text-sm md:text-base text-flame-maroon/90 max-w-3xl mt-0.5 font-medium leading-snug">
           {slide6Stakeholders.subtitle}
         </p>
       </motion.div>

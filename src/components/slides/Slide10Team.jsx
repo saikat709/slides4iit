@@ -8,29 +8,29 @@ export default function Slide10Team() {
   const { meta, slide10Conclusion } = presentationData;
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#56030F] via-flame-maroon to-[#220005] text-white relative overflow-hidden">
+    <div className="w-full h-full flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-b from-[#56030F] via-flame-maroon to-[#220005] text-white relative overflow-hidden">
       {/* Ambient Flame & Embers Background */}
       <RealFlameBackground colorPreset="ambient" flameHeight="bottom" intensity={0.7} showEmbers={true} />
 
       {/* Center Section: Clean, Bold, Concluding Focus */}
-      <div className="my-auto py-4 z-10 max-w-4xl w-full mx-auto text-center space-y-7">
+      <div className="my-auto py-2 sm:py-4 z-10 max-w-4xl w-full mx-auto text-center space-y-4 sm:space-y-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="space-y-3"
+          className="space-y-2 sm:space-y-3"
         >
           <span className="text-xs font-mono font-bold uppercase tracking-widest text-flame-pink/80 flex items-center justify-center gap-2">
             <Cpu className="w-4 h-4 text-flame-pink" />
             {slide10Conclusion.tag}
           </span>
-          <h1 className="font-anton text-7xl sm:text-8xl md:text-9xl lg:text-[130px] tracking-tight text-white leading-none drop-shadow-[0_10px_35px_rgba(0,0,0,0.85)]">
+          <h1 className="font-anton text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight text-white leading-none drop-shadow-[0_10px_35px_rgba(0,0,0,0.85)]">
             {slide10Conclusion.title}
           </h1>
-          <p className="text-2xl sm:text-3xl font-extrabold text-flame-pink mt-2">
+          <p className="text-xl sm:text-2xl md:text-3xl font-extrabold text-flame-pink mt-1 sm:mt-2">
             {slide10Conclusion.tagline}
           </p>
-          <p className="text-base sm:text-lg text-white/90 max-w-2xl mx-auto font-normal leading-relaxed pt-1">
+          <p className="text-sm sm:text-base md:text-lg text-white/90 max-w-2xl mx-auto font-normal leading-relaxed pt-0.5 sm:pt-1">
             {slide10Conclusion.description}
           </p>
         </motion.div>

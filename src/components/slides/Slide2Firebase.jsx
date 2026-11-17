@@ -16,7 +16,7 @@ export default function Slide2Firebase() {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#56030F] via-flame-maroon to-[#280005] text-white relative overflow-hidden">
+    <div className="w-full h-full flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-b from-[#56030F] via-flame-maroon to-[#280005] text-white relative overflow-hidden">
       {/* Light gradient lighting and ambient flame */}
       <div className="absolute inset-0 bg-radial-gradient from-flame-pink/5 via-transparent to-black/40 pointer-events-none" />
       <RealFlameBackground colorPreset="ambient" flameHeight="bottom" intensity={0.65} showEmbers={true} />
@@ -24,18 +24,18 @@ export default function Slide2Firebase() {
 
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: -15 }}
+        initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="z-10"
+        transition={{ duration: 0.45 }}
+        className="z-10 shrink-0"
       >
-        <span className="text-xs font-mono font-bold tracking-widest uppercase text-flame-pink/80 bg-flame-pink/10 px-3 py-1 rounded">
+        <span className="text-[11px] sm:text-xs font-mono font-bold tracking-widest uppercase text-flame-pink/80 bg-flame-pink/10 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded">
           {slide2Firebase.category}
         </span>
-        <h2 className="font-anton text-4xl sm:text-5xl md:text-6xl text-white mt-2 tracking-wide">
+        <h2 className="font-anton text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mt-1 sm:mt-1.5 tracking-wide leading-tight">
           {slide2Firebase.title}
         </h2>
-        <p className="text-base sm:text-lg text-flame-pink/90 max-w-3xl mt-1">
+        <p className="text-xs sm:text-sm md:text-base text-flame-pink/90 max-w-3xl mt-0.5 leading-snug">
           {slide2Firebase.subtitle}
         </p>
       </motion.div>
