@@ -76,7 +76,7 @@ Simply open `presentationData.json` and change any words, names, or sentences. E
 
 1. **Slide 1 — Cover:** `FLAMEBASE`, tagline, animated SVG flame with particles, developers & supervisor.
 2. **Slide 2 — What is Firebase?:** Introductory architecture diagram (Client $\rightarrow$ SDK $\rightarrow$ Google-hosted services) & The Flamebase Shift.
-3. **Slide 3 — Motivation & Problem:** No infrastructure control, per-query billing, vendor lock-in (speed framed as Rust design goal).
+3. **Slide 3 — Motivation & Problem:** No infrastructure control, per-operation billing, vendor lock-in (speed framed as Rust design goal).
 4. **Slide 4 — Proposed Solution:** Open-source, self-hosted, drop-in SDK compatibility, predictable flat cost, one-command install.
 5. **Slide 5 — Key Features & Ports:** Auth (`:9099`), Database on redb (`:8080`), Functions (`:5001`), Storage (`:9199`), Angular Dashboard (`:4000`).
 6. **Slide 6 — Stakeholders & Target Users:** 5 primary stakeholder groups & 3 target user segments.

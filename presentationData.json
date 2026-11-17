@@ -92,7 +92,7 @@
       },
       {
         "number": "02",
-        "title": "Per-Query Pricing",
+        "title": "Per-Operation Pricing",
         "subtitle": "Unpredictable Scaling Invoices",
         "description": "Cloud billing charges continuously for every single database read, document write, delete operation, and API invocation. An unexpected traffic surge, loop bug, or viral event can trigger catastrophic billing shocks.",
         "impact": "Pay-Per-Read/Write • Incurring Bill Shocks"
@@ -125,7 +125,7 @@
       },
       {
         "title": "Rust Speed & Memory Efficiency",
-        "desc": "Built with Axum + redb to target blazing microsecond latencies and zero GC pause overhead."
+        "desc": "Built with Axum + redb + object_store to target blazing microsecond latencies and zero GC pause overhead."
       },
       {
         "title": "Predictable Flat-Rate Hosting",
@@ -146,8 +146,8 @@
       "sdkName": "flamebase-js-sdk",
       "sdkNote": "Points endpoints to your private server",
       "coreTitle": "Flamebase Rust Core",
-      "coreBadge": "Axum + redb",
-      "ports": ["Auth (:9099)", "DB (:8080)", "Storage (:9199)", "Functions (:5001)"]
+      "coreBadge": "Axum + redb + object_store",
+      "ports": ["Auth (:9099)", "DB (:8080)", "Storage (:9199)", "Functions (:5001)", "Dashboard (:4000)"]
     },
     "takeaway": {
       "strong": "Key Takeaway:",
@@ -156,9 +156,56 @@
     }
   },
   "slide5Features": {
-    "category": "CORE SERVICES ARCHITECTURE",
+    "category": "CORE SYSTEM COMPONENTS",
     "title": "KEY FEATURES & DEDICATED PORTS",
-    "subtitle": "Four decoupled, high-speed backend services mirroring Firebase endpoints, plus a unified administrative console.",
+    "subtitle": "Five core architectural components: four high-speed backend microservices mirroring Firebase endpoints, plus a unified Angular management dashboard.",
+    "features": [
+      {
+        "id": "01",
+        "title": "Flamebase Authentication",
+        "port": "9099",
+        "tag": "Identity & Tokens",
+        "badge": "Rust / Axum",
+        "details": "Full authentication engine supporting Mobile/Email + Password and Google OAuth. The scaffold also includes architectural hooks for anonymous logins and custom token verification.",
+        "tech": "Rust / Axum • Port 9099"
+      },
+      {
+        "id": "02",
+        "title": "Flamebase Database",
+        "port": "8080",
+        "tag": "Document Store",
+        "badge": "redb Embedded",
+        "details": "High-speed document & JSON data store powered by redb (an embedded, pure-Rust ACID key-value database), replacing Firestore with zero external database server dependencies.",
+        "tech": "redb Embedded Engine • Port 8080"
+      },
+      {
+        "id": "03",
+        "title": "Flamebase Storage",
+        "port": "9199",
+        "tag": "Object Storage",
+        "badge": "object_store Crate",
+        "details": "Self-hosted file and media storage powered by the pure-Rust object_store crate. Provides unified streaming and bucket management across local disks, AWS S3, and cloud storage.",
+        "tech": "object_store (Rust Crate) • Port 9199"
+      },
+      {
+        "id": "04",
+        "title": "Flamebase Functions",
+        "port": "5001",
+        "tag": "Serverless Compute",
+        "badge": "Node.js Sandboxed",
+        "details": "Executes custom server-side functions in dedicated Node.js worker runtimes with sandbox boundaries, enabling serverless logic without cloud vendor lock-in.",
+        "tech": "Node.js Worker Runtime • Port 5001"
+      },
+      {
+        "id": "05",
+        "title": "Management Console / Dashboard",
+        "port": "4000",
+        "tag": "Admin Web Console",
+        "badge": "Angular 18",
+        "details": "Unified administrative web UI built with TypeScript and Angular for managing users, inspecting redb documents, managing storage buckets, and monitoring all microservices.",
+        "tech": "TypeScript + Angular • Port 4000"
+      }
+    ],
     "services": [
       {
         "title": "Flamebase Authentication",
@@ -175,18 +222,18 @@
         "tech": "redb Embedded Engine • Port 8080"
       },
       {
+        "title": "Flamebase Storage",
+        "port": "9199",
+        "tag": "Object Storage",
+        "details": "Self-hosted file and media storage powered by the pure-Rust object_store crate. Provides unified streaming and bucket management across local disks, AWS S3, and cloud storage.",
+        "tech": "object_store (Rust Crate) • Port 9199"
+      },
+      {
         "title": "Flamebase Functions",
         "port": "5001",
         "tag": "Serverless Compute",
         "details": "Executes custom server-side functions in dedicated Node.js worker runtimes with sandbox boundaries, enabling serverless logic without cloud vendor lock-in.",
         "tech": "Node.js Worker Runtime • Port 5001"
-      },
-      {
-        "title": "Flamebase Storage",
-        "port": "9199",
-        "tag": "Object Storage",
-        "details": "Self-hosted file, media, and asset storage system with direct streaming capabilities and granular permission checking matching Firebase storage buckets.",
-        "tech": "Rust File Engine • Port 9199"
       }
     ],
     "console": {
@@ -225,7 +272,7 @@
     "targetUsers": [
       {
         "title": "Startups & Small Teams",
-        "desc": "Looking to reduce and stabilize backend infrastructure costs without unpredictable per-query cloud bills."
+        "desc": "Looking to reduce and stabilize backend infrastructure costs without unpredictable per-operation cloud bills."
       },
       {
         "title": "Students & Indie Developers",
@@ -255,22 +302,28 @@
         "badge": "Zero DB Daemon"
       },
       {
-        "layer": "Client SDK",
-        "tech": "flamebase-js-sdk",
-        "role": "Forked TypeScript/JS SDK providing drop-in compatibility with existing Firebase apps.",
-        "badge": "Drop-in API"
-      },
-      {
-        "layer": "Management Dashboard",
-        "tech": "TypeScript + Angular",
-        "role": "Administrative web console to manage users, permissions, and inspect live services.",
-        "badge": "Web Console"
+        "layer": "Storage Engine",
+        "tech": "object_store (Rust Crate)",
+        "role": "Pure-Rust multi-backend asset storage abstraction supporting local filesystem, AWS S3, and cloud blobs.",
+        "badge": "object_store"
       },
       {
         "layer": "Functions Runtime",
         "tech": "Node.js Worker",
         "role": "Executes custom user serverless event functions in isolated process sandboxes.",
         "badge": "Serverless"
+      },
+      {
+        "layer": "Management Dashboard",
+        "tech": "TypeScript + Angular",
+        "role": "Administrative web console to manage users, permissions, storage, and inspect live services.",
+        "badge": "Web Console"
+      },
+      {
+        "layer": "Client SDK",
+        "tech": "flamebase-js-sdk",
+        "role": "Forked TypeScript/JS SDK providing drop-in compatibility with existing Firebase apps.",
+        "badge": "Drop-in API"
       },
       {
         "layer": "Packaging & Deploy",
@@ -287,24 +340,36 @@
     ],
     "pipelineSummary": {
       "label": "PIPELINE:",
-      "steps": ["Client App", "flamebase-js-sdk", "Axum Services", "redb"],
-      "badge": "Pure Rust Backend"
+      "steps": ["Client App", "flamebase-js-sdk", "Axum Core", "redb & object_store"],
+      "badge": "Pure Rust Core"
     }
   },
   "slide8Methodology": {
     "category": "ENGINEERING DISCIPLINE",
     "title": "DEVELOPMENT METHODOLOGY",
-    "subtitle": "A phased, sequential microservice build cycle coupled with continuous SDK-driven compatibility testing.",
+    "subtitle": "A phased, step-by-step microservice build cycle powered by automated CI/CD pipelines.",
     "pillars": [
       {
         "title": "Sequential Service Build",
-        "subtitle": "Isolated Milestone Execution",
-        "desc": "Services are developed in strict sequence—starting with Authentication, progressing through Database, Storage, and Functions—while developing the Angular Dashboard concurrently to visualize each feature as it lands."
+        "subtitle": "Step-by-Step Microservice Lifecycle",
+        "desc": "Services are engineered in distinct, sequential steps to guarantee architectural stability at each milestone:",
+        "steps": [
+          { "step": "Step 1", "name": "Authentication Core", "detail": "Identity, password hashing & Google OAuth scaffolded first" },
+          { "step": "Step 2", "name": "Angular Console", "detail": "Administrative UI built in parallel to manage services" },
+          { "step": "Step 3", "name": "Database Engine", "detail": "Embedded pure-Rust redb key-value store with JSON document APIs" },
+          { "step": "Step 4", "name": "Storage & Functions", "detail": "object_store crate file streaming & Node.js worker process sandbox" }
+        ]
       },
       {
-        "title": "SDK-Driven Verification",
-        "subtitle": "Drop-In Contract Guarantee",
-        "desc": "Every backend API route is immediately tested directly against the official Firebase JavaScript SDK. No service is marked ready until client operations (auth tokens, reads, writes) succeed against Flamebase without client error."
+        "title": "CI/CD & Automation Pipeline",
+        "subtitle": "Automated Testing & Multi-Repo Delivery",
+        "desc": "Continuous integration pipelines connect our 3 ecosystem repositories for automated testing and rapid delivery:",
+        "steps": [
+          { "step": "CI", "name": "Automated Testing", "detail": "GitHub Actions run cargo test, clippy linting & formatting on PRs" },
+          { "step": "BUILD", "name": "Docker Packaging", "detail": "Automated multi-service container builds & image publishing" },
+          { "step": "E2E", "name": "Cross-Repo Validation", "detail": "End-to-end integration tests between client SDK and Rust backend" },
+          { "step": "DEPLOY", "name": "Installer Generation", "detail": "Single-command installer scripts bundled for production setups" }
+        ]
       }
     ],
     "roadmapTitle": "6-Phase Engineering Roadmap",
@@ -335,7 +400,7 @@
         "num": "Phase 4",
         "name": "Storage Engine",
         "status": "PLANNED",
-        "details": "Chunked binary streaming, file uploads, asset metadata, and bucket permissions.",
+        "details": "Pure-Rust object_store crate integration for chunked file streaming and bucket permissions.",
         "current": false
       },
       {
@@ -376,7 +441,7 @@
         "type": "Core Backend Services",
         "repo": "flamebase-org/flamebase",
         "tech": "Rust / Cargo Workspace",
-        "desc": "Unified Cargo monorepo containing all 4 core Axum services (Auth, DB, Functions, Storage) and embedded Angular dashboard distribution.",
+        "desc": "Unified Cargo monorepo containing all 4 core Axum services (Auth, DB, Functions, Storage via object_store) and embedded Angular dashboard distribution.",
         "highlights": [
           "Cargo workspace with shared crate models",
           "Pure-Rust Axum async HTTP runtime",

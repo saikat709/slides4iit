@@ -2,11 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import presentationData from '../../../presentationData.json';
 import RealFlameBackground from '../RealFlameBackground';
-import { ShieldCheck, Layers } from 'lucide-react';
+import { Layers, Workflow } from 'lucide-react';
 
 export default function Slide8Methodology() {
   const { slide8Methodology } = presentationData;
-  const pillarIcons = [Layers, ShieldCheck];
+  const pillarIcons = [Layers, Workflow];
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-gradient-to-b from-[#56030F] via-flame-maroon to-[#260005] text-white relative overflow-hidden">
@@ -43,24 +43,42 @@ export default function Slide8Methodology() {
               initial={{ opacity: 0, x: idx === 0 ? -20 : 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.15 + idx * 0.05 }}
-              className="bg-flame-maroon-dark/90 border border-flame-pink/30 border-t-white/20 rounded-2xl p-6 sm:p-7 shadow-2xl backdrop-blur-md"
+              className="bg-flame-maroon-dark/90 border border-flame-pink/30 border-t-white/20 rounded-2xl p-6 sm:p-7 shadow-2xl backdrop-blur-md flex flex-col justify-between"
             >
-              <div className="flex items-center gap-4 mb-3.5">
-                <div className="w-12 h-12 rounded-2xl bg-flame-pink text-flame-maroon flex items-center justify-center shrink-0 shadow-lg">
-                  <Icon className="w-6 h-6" />
+              <div>
+                <div className="flex items-center gap-4 mb-3">
+                  <div className="w-12 h-12 rounded-2xl bg-flame-pink text-flame-maroon flex items-center justify-center shrink-0 shadow-lg">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-xl sm:text-2xl text-white tracking-tight leading-snug">
+                      {pillar.title}
+                    </h3>
+                    <p className="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider">
+                      {pillar.subtitle}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-bold text-xl sm:text-2xl text-white tracking-tight leading-snug">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-xs font-mono font-bold text-amber-300 uppercase tracking-wider">
-                    {pillar.subtitle}
-                  </p>
-                </div>
+                <p className="text-sm text-white/90 leading-relaxed font-normal mb-3.5">
+                  {pillar.desc}
+                </p>
+
+                {pillar.steps && (
+                  <div className="space-y-2 pt-3 border-t border-flame-pink/15">
+                    {pillar.steps.map((s, i) => (
+                      <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm">
+                        <span className="font-mono font-bold text-[11px] bg-flame-pink/20 text-flame-pink px-2.5 py-0.5 rounded-md shrink-0 mt-0.5 border border-flame-pink/30">
+                          {s.step}
+                        </span>
+                        <div className="leading-snug">
+                          <strong className="text-white font-semibold">{s.name}: </strong>
+                          <span className="text-white/85 font-normal">{s.detail}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-              <p className="text-sm sm:text-base text-white/90 leading-relaxed font-normal">
-                {pillar.desc}
-              </p>
             </motion.div>
           );
         })}
