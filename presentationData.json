@@ -60,15 +60,15 @@
         "role": "User identity verification & session management (Email/Pass, OAuth, Custom Tokens)."
       },
       {
-        "name": "Database (Firestore)",
+        "name": "Firebase Firestore",
         "role": "Document & JSON NoSQL cloud datastore with realtime synchronization hooks."
       },
       {
-        "name": "Cloud Storage",
+        "name": "Firebase Storage",
         "role": "Scalable object storage for user media, file uploads, and static asset blobs."
       },
       {
-        "name": "Cloud Functions",
+        "name": "Firebase Functions",
         "role": "Serverless backend compute executing event-driven JavaScript & TypeScript logic."
       }
     ],
@@ -171,7 +171,7 @@
       },
       {
         "id": "02",
-        "title": "Flamebase Database",
+        "title": "Flamebase Flamestore",
         "port": "8080",
         "tag": "Document Store",
         "badge": "redb Embedded",
