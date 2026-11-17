@@ -23,7 +23,7 @@ export default function HomePage() {
         <div className="absolute top-1/3 -right-40 w-[30rem] h-[30rem] bg-flame-orange/15 rounded-full blur-[140px]" />
       </div>
 
-      {/* Top Navbar: Clean & minimal without subtitle */}
+      {/* Top Navbar */}
       <header className="relative z-10 border-b border-flame-pink/15 backdrop-blur-md bg-[#240004]/80 sticky top-0">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -47,27 +47,8 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Hero Section: Focused Presenter Attribution without fluff */}
-      <section className="relative z-10 pt-10 pb-8 border-b border-flame-pink/10">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-1.5"
-          >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white">
-              {ownerInfo.name}
-            </h1>
-            <p className="text-base sm:text-lg text-flame-pink font-medium">
-              {ownerInfo.institution} <span className="text-flame-pink/50">•</span> {ownerInfo.fullNameInstitution}
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Main Content: Presentations List */}
-      <main className="relative z-10 flex-1 max-w-5xl mx-auto px-4 sm:px-6 py-8 w-full">
+      {/* Direct Presentations Grid (No Hero Space) */}
+      <main className="relative z-10 flex-1 max-w-5xl mx-auto px-4 sm:px-6 py-10 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {presentations.map((pres) => (
             <motion.div
@@ -162,11 +143,15 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Footer: Clean and simple */}
-      <footer className="relative z-10 border-t border-flame-pink/15 py-6 mt-12 bg-[#1a0003]/80 backdrop-blur-md text-xs font-mono text-flame-pink/70">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-          <span>{ownerInfo.name} • {ownerInfo.institution}</span>
-          <span className="text-white/40 hidden sm:inline">{ownerInfo.fullNameInstitution}</span>
+      {/* Footer: Owner Attribution */}
+      <footer className="relative z-10 border-t border-flame-pink/15 py-8 mt-auto bg-[#1a0003]/80 backdrop-blur-md text-xs font-mono text-flame-pink/80">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+          <div className="font-semibold text-white text-sm">
+            {ownerInfo.name}
+          </div>
+          <div className="text-flame-pink/70">
+            {ownerInfo.institution} • {ownerInfo.fullNameInstitution}
+          </div>
         </div>
       </footer>
     </div>
